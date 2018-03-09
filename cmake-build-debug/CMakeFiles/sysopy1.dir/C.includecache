@@ -7,6 +7,8 @@
 #IncludeRegexTransform: 
 
 /Users/dawid/CLionProjects/sysopy1/client/client.c
+dlfcn.h
+-
 stdio.h
 -
 assert.h
@@ -31,6 +33,8 @@ tests.h
 /Users/dawid/CLionProjects/sysopy1/client/tests.h
 
 /Users/dawid/CLionProjects/sysopy1/client/tests.c
+dlfcn.h
+-
 stdio.h
 -
 assert.h

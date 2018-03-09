@@ -1,6 +1,6 @@
-//#ifdef DYNAMIC
-//#include <dlfcn.h>
-//#endif
+#ifdef DYNAMIC
+    #include <dlfcn.h>
+#endif
 
 #include <stdio.h>
 #include <assert.h>
@@ -29,20 +29,14 @@ void load_data(Block *block, int num_elements);
 //liczba elementów, rozmiar bloku, sposób alokacji, spis wykonywanych operacji
 int main(int argc, char **argsv) {
 //
-//#ifdef DYNAMIC
-//    void *lib = dlopen("../library/libblocks_dynamic.so", RTLD_LAZY);
-//    Block* (*create)(int, int) = dlsym(lib, "create");
-//    void (*add)(Block*, char*) = dlsym(lib, "add");
-//    void (*print)(Block*) = dlsym(lib, "print");
-//    void (*delete_char)(Block*, const char *) = dlsym(lib, "delete_char");
-//    void (*delete_all)(Block*) = dlsym(lib, "delete_all");
-//    char* (*search_for)(Block *) = dlsym(lib, "search_for");
-//    void (*delete_some)(Block *, int) = dlsym(lib, "delete_some");
-//#endif
+#ifdef DYNAMIC
+    lib = dlopen("../library/libblocks_dynamic.so", RTLD_LAZY);
+    //void (*print)(Block*) = dlsym(lib, "print");
+    void (*delete_all)(Block*) = dlsym(lib, "delete_all");
+#endif
 
     Args args = process_arguments(argc, argsv);
     //printArgs(args);
-
 
     Block *block = test_create_block(args.num_elements, args.block_size);
     //char* found = test_search(block);
@@ -52,13 +46,12 @@ int main(int argc, char **argsv) {
     //delete_all(block);
     test_del_add_alternally(block, args.num_elements / 2);
     //print(block);
-
-    //delete_all(block);
+    delete_all(block);
 
     //print(block);
-//#ifdef DYNAMIC
-//    dlclose(lib);
-//#endif
+#ifdef DYNAMIC
+    dlclose(lib);
+#endif
     return 0;
 }
 

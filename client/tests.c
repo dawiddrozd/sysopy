@@ -1,3 +1,6 @@
+#ifdef DYNAMIC
+    #include <dlfcn.h>
+#endif
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
@@ -27,6 +30,9 @@ void print_times(struct tms *beg, clock_t clock_before) {
 }
 
 void load_data(Block *block, int num_elements) {
+#ifdef DYNAMIC
+    void (*add)(Block*, char*) = dlsym(lib, "add");
+#endif
     char *path = "/Users/dawid/CLionProjects/sysopy1/client/data.txt";
     char *line = (char*)malloc(BUFFER);
     FILE *file = fopen(path, "r");
@@ -51,6 +57,9 @@ void load_data(Block *block, int num_elements) {
 // stworzenie tablicy z zadaną liczbą bloków o zdanym rozmiarze i przy pomocy wybranej funkcji alokującej
 // -create 350 500
 Block *test_create_block(int num_elements, int block_size) {
+#ifdef DYNAMIC
+    Block* (*create)(int, int) = dlsym(lib, "create");
+#endif
     printf("Blocks creation:\n");
     times(&begin);
     clock_curr = clock();
@@ -64,6 +73,9 @@ Block *test_create_block(int num_elements, int block_size) {
 // wyszukanie najbardziej podobnego elementu z punktu widzenia sumy znaków do elementu zadanego jako argument
 // -find
 char *test_search(Block *block) {
+#ifdef DYNAMIC
+    char* (*search_for)(Block *) = dlsym(lib, "search_for");
+#endif
     printf("Searching:\n");
     times(&begin);
     clock_curr = clock();
@@ -76,6 +88,9 @@ char *test_search(Block *block) {
 // usunięcie kolejno zadanej liczby bloków a następnie dodanie  na ich miejsce nowych bloków
 // -deladd 100
 void test_del_add(Block *block, int size) {
+#ifdef DYNAMIC
+    void (*delete_some)(Block *, int) = dlsym(lib, "delete_some");
+#endif
     printf("Deleting and adding in sequence:\n");
     times(&begin);
     clock_curr = clock();
@@ -86,6 +101,9 @@ void test_del_add(Block *block, int size) {
 
 // na przemian usunięcie i dodanie zadanej liczby bloków
 void test_del_add_alternally(Block *block, int size) {
+#ifdef DYNAMIC
+    void (*delete_some)(Block *, int) = dlsym(lib, "delete_some");
+#endif
     printf("Deleting and adding alternally:\n");
     times(&begin);
     clock_curr = clock();

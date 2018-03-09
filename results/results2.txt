@@ -1,0 +1,40 @@
+STATIC LINKED
+
+Blocks creation:
+Real: 0.003085, System: 0.000000, User: 0.000000
+Searching:
+Best difference is for:
+Mollis Integer Tincidunt Foundation and it is 0
+Real: 0.000621, System: 0.000000, User: 0.000000
+Deleting and adding in sequence:
+Real: 0.146178, System: 0.000000, User: 0.140000
+Deleting and adding alternally:
+Real: 0.243373, System: 0.050000, User: 0.190000
+
+
+DYNAMIC LINKED
+
+Blocks creation:
+Real: 0.002967, System: 0.000000, User: 0.000000
+Searching:
+Best difference is for:
+Mollis Integer Tincidunt Foundation and it is 0
+Real: 0.000754, System: 0.000000, User: 0.000000
+Deleting and adding in sequence:
+Real: 0.152243, System: 0.000000, User: 0.150000
+Deleting and adding alternally:
+Real: 0.237263, System: 0.050000, User: 0.180000
+
+
+SHARED LINKED
+
+Blocks creation:
+Real: 0.003111, System: 0.000000, User: 0.000000
+Searching:
+Best difference is for:
+Mollis Integer Tincidunt Foundation and it is 0
+Real: 0.000616, System: 0.000000, User: 0.000000
+Deleting and adding in sequence:
+Real: 0.145343, System: 0.000000, User: 0.140000
+Deleting and adding alternally:
+Real: 0.299841, System: 0.050000, User: 0.250000

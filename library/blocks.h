@@ -11,6 +11,9 @@ typedef struct Block {
     int block_size;
 } Block;
 
+#ifdef DYNAMIC
+    void *lib;
+#endif
 Block* create(int,int);
 void add(Block*,char*);
 void print(Block*);
@@ -18,6 +21,5 @@ void delete_char(Block *, const char *);
 void delete_all(Block*);
 char *search_for(Block *);
 void delete_some(Block *, int);
-
 
 #endif
