@@ -57,90 +57,90 @@ include CMakeFiles/sysopy1.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/sysopy1.dir/flags.make
 
-CMakeFiles/sysopy1.dir/library/lib.c.o: CMakeFiles/sysopy1.dir/flags.make
-CMakeFiles/sysopy1.dir/library/lib.c.o: ../library/lib.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/sysopy1.dir/library/lib.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/sysopy1.dir/library/lib.c.o   -c /Users/dawid/CLionProjects/sysopy1/library/lib.c
+CMakeFiles/sysopy1.dir/library/blocks.c.o: CMakeFiles/sysopy1.dir/flags.make
+CMakeFiles/sysopy1.dir/library/blocks.c.o: ../library/blocks.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/sysopy1.dir/library/blocks.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/sysopy1.dir/library/blocks.c.o   -c /Users/dawid/CLionProjects/sysopy1/library/blocks.c
 
-CMakeFiles/sysopy1.dir/library/lib.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sysopy1.dir/library/lib.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/dawid/CLionProjects/sysopy1/library/lib.c > CMakeFiles/sysopy1.dir/library/lib.c.i
+CMakeFiles/sysopy1.dir/library/blocks.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sysopy1.dir/library/blocks.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/dawid/CLionProjects/sysopy1/library/blocks.c > CMakeFiles/sysopy1.dir/library/blocks.c.i
 
-CMakeFiles/sysopy1.dir/library/lib.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sysopy1.dir/library/lib.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/dawid/CLionProjects/sysopy1/library/lib.c -o CMakeFiles/sysopy1.dir/library/lib.c.s
+CMakeFiles/sysopy1.dir/library/blocks.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sysopy1.dir/library/blocks.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/dawid/CLionProjects/sysopy1/library/blocks.c -o CMakeFiles/sysopy1.dir/library/blocks.c.s
 
-CMakeFiles/sysopy1.dir/library/lib.c.o.requires:
+CMakeFiles/sysopy1.dir/library/blocks.c.o.requires:
 
-.PHONY : CMakeFiles/sysopy1.dir/library/lib.c.o.requires
+.PHONY : CMakeFiles/sysopy1.dir/library/blocks.c.o.requires
 
-CMakeFiles/sysopy1.dir/library/lib.c.o.provides: CMakeFiles/sysopy1.dir/library/lib.c.o.requires
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/lib.c.o.provides.build
-.PHONY : CMakeFiles/sysopy1.dir/library/lib.c.o.provides
+CMakeFiles/sysopy1.dir/library/blocks.c.o.provides: CMakeFiles/sysopy1.dir/library/blocks.c.o.requires
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/blocks.c.o.provides.build
+.PHONY : CMakeFiles/sysopy1.dir/library/blocks.c.o.provides
 
-CMakeFiles/sysopy1.dir/library/lib.c.o.provides.build: CMakeFiles/sysopy1.dir/library/lib.c.o
-
-
-CMakeFiles/sysopy1.dir/library/client.c.o: CMakeFiles/sysopy1.dir/flags.make
-CMakeFiles/sysopy1.dir/library/client.c.o: ../library/client.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/sysopy1.dir/library/client.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/sysopy1.dir/library/client.c.o   -c /Users/dawid/CLionProjects/sysopy1/library/client.c
-
-CMakeFiles/sysopy1.dir/library/client.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sysopy1.dir/library/client.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/dawid/CLionProjects/sysopy1/library/client.c > CMakeFiles/sysopy1.dir/library/client.c.i
-
-CMakeFiles/sysopy1.dir/library/client.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sysopy1.dir/library/client.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/dawid/CLionProjects/sysopy1/library/client.c -o CMakeFiles/sysopy1.dir/library/client.c.s
-
-CMakeFiles/sysopy1.dir/library/client.c.o.requires:
-
-.PHONY : CMakeFiles/sysopy1.dir/library/client.c.o.requires
-
-CMakeFiles/sysopy1.dir/library/client.c.o.provides: CMakeFiles/sysopy1.dir/library/client.c.o.requires
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/client.c.o.provides.build
-.PHONY : CMakeFiles/sysopy1.dir/library/client.c.o.provides
-
-CMakeFiles/sysopy1.dir/library/client.c.o.provides.build: CMakeFiles/sysopy1.dir/library/client.c.o
+CMakeFiles/sysopy1.dir/library/blocks.c.o.provides.build: CMakeFiles/sysopy1.dir/library/blocks.c.o
 
 
-CMakeFiles/sysopy1.dir/library/tests.c.o: CMakeFiles/sysopy1.dir/flags.make
-CMakeFiles/sysopy1.dir/library/tests.c.o: ../library/tests.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/sysopy1.dir/library/tests.c.o"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/sysopy1.dir/library/tests.c.o   -c /Users/dawid/CLionProjects/sysopy1/library/tests.c
+CMakeFiles/sysopy1.dir/client/client.c.o: CMakeFiles/sysopy1.dir/flags.make
+CMakeFiles/sysopy1.dir/client/client.c.o: ../client/client.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/sysopy1.dir/client/client.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/sysopy1.dir/client/client.c.o   -c /Users/dawid/CLionProjects/sysopy1/client/client.c
 
-CMakeFiles/sysopy1.dir/library/tests.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sysopy1.dir/library/tests.c.i"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/dawid/CLionProjects/sysopy1/library/tests.c > CMakeFiles/sysopy1.dir/library/tests.c.i
+CMakeFiles/sysopy1.dir/client/client.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sysopy1.dir/client/client.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/dawid/CLionProjects/sysopy1/client/client.c > CMakeFiles/sysopy1.dir/client/client.c.i
 
-CMakeFiles/sysopy1.dir/library/tests.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sysopy1.dir/library/tests.c.s"
-	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/dawid/CLionProjects/sysopy1/library/tests.c -o CMakeFiles/sysopy1.dir/library/tests.c.s
+CMakeFiles/sysopy1.dir/client/client.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sysopy1.dir/client/client.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/dawid/CLionProjects/sysopy1/client/client.c -o CMakeFiles/sysopy1.dir/client/client.c.s
 
-CMakeFiles/sysopy1.dir/library/tests.c.o.requires:
+CMakeFiles/sysopy1.dir/client/client.c.o.requires:
 
-.PHONY : CMakeFiles/sysopy1.dir/library/tests.c.o.requires
+.PHONY : CMakeFiles/sysopy1.dir/client/client.c.o.requires
 
-CMakeFiles/sysopy1.dir/library/tests.c.o.provides: CMakeFiles/sysopy1.dir/library/tests.c.o.requires
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/tests.c.o.provides.build
-.PHONY : CMakeFiles/sysopy1.dir/library/tests.c.o.provides
+CMakeFiles/sysopy1.dir/client/client.c.o.provides: CMakeFiles/sysopy1.dir/client/client.c.o.requires
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/client/client.c.o.provides.build
+.PHONY : CMakeFiles/sysopy1.dir/client/client.c.o.provides
 
-CMakeFiles/sysopy1.dir/library/tests.c.o.provides.build: CMakeFiles/sysopy1.dir/library/tests.c.o
+CMakeFiles/sysopy1.dir/client/client.c.o.provides.build: CMakeFiles/sysopy1.dir/client/client.c.o
+
+
+CMakeFiles/sysopy1.dir/client/tests.c.o: CMakeFiles/sysopy1.dir/flags.make
+CMakeFiles/sysopy1.dir/client/tests.c.o: ../client/tests.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/sysopy1.dir/client/tests.c.o"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/sysopy1.dir/client/tests.c.o   -c /Users/dawid/CLionProjects/sysopy1/client/tests.c
+
+CMakeFiles/sysopy1.dir/client/tests.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/sysopy1.dir/client/tests.c.i"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /Users/dawid/CLionProjects/sysopy1/client/tests.c > CMakeFiles/sysopy1.dir/client/tests.c.i
+
+CMakeFiles/sysopy1.dir/client/tests.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/sysopy1.dir/client/tests.c.s"
+	/Library/Developer/CommandLineTools/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /Users/dawid/CLionProjects/sysopy1/client/tests.c -o CMakeFiles/sysopy1.dir/client/tests.c.s
+
+CMakeFiles/sysopy1.dir/client/tests.c.o.requires:
+
+.PHONY : CMakeFiles/sysopy1.dir/client/tests.c.o.requires
+
+CMakeFiles/sysopy1.dir/client/tests.c.o.provides: CMakeFiles/sysopy1.dir/client/tests.c.o.requires
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/client/tests.c.o.provides.build
+.PHONY : CMakeFiles/sysopy1.dir/client/tests.c.o.provides
+
+CMakeFiles/sysopy1.dir/client/tests.c.o.provides.build: CMakeFiles/sysopy1.dir/client/tests.c.o
 
 
 # Object files for target sysopy1
 sysopy1_OBJECTS = \
-"CMakeFiles/sysopy1.dir/library/lib.c.o" \
-"CMakeFiles/sysopy1.dir/library/client.c.o" \
-"CMakeFiles/sysopy1.dir/library/tests.c.o"
+"CMakeFiles/sysopy1.dir/library/blocks.c.o" \
+"CMakeFiles/sysopy1.dir/client/client.c.o" \
+"CMakeFiles/sysopy1.dir/client/tests.c.o"
 
 # External object files for target sysopy1
 sysopy1_EXTERNAL_OBJECTS =
 
-sysopy1: CMakeFiles/sysopy1.dir/library/lib.c.o
-sysopy1: CMakeFiles/sysopy1.dir/library/client.c.o
-sysopy1: CMakeFiles/sysopy1.dir/library/tests.c.o
+sysopy1: CMakeFiles/sysopy1.dir/library/blocks.c.o
+sysopy1: CMakeFiles/sysopy1.dir/client/client.c.o
+sysopy1: CMakeFiles/sysopy1.dir/client/tests.c.o
 sysopy1: CMakeFiles/sysopy1.dir/build.make
 sysopy1: CMakeFiles/sysopy1.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C executable sysopy1"
@@ -151,9 +151,9 @@ CMakeFiles/sysopy1.dir/build: sysopy1
 
 .PHONY : CMakeFiles/sysopy1.dir/build
 
-CMakeFiles/sysopy1.dir/requires: CMakeFiles/sysopy1.dir/library/lib.c.o.requires
-CMakeFiles/sysopy1.dir/requires: CMakeFiles/sysopy1.dir/library/client.c.o.requires
-CMakeFiles/sysopy1.dir/requires: CMakeFiles/sysopy1.dir/library/tests.c.o.requires
+CMakeFiles/sysopy1.dir/requires: CMakeFiles/sysopy1.dir/library/blocks.c.o.requires
+CMakeFiles/sysopy1.dir/requires: CMakeFiles/sysopy1.dir/client/client.c.o.requires
+CMakeFiles/sysopy1.dir/requires: CMakeFiles/sysopy1.dir/client/tests.c.o.requires
 
 .PHONY : CMakeFiles/sysopy1.dir/requires
 

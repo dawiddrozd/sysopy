@@ -123,86 +123,86 @@ sysopy1/fast:
 	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/build
 .PHONY : sysopy1/fast
 
-library/client.o: library/client.c.o
+client/client.o: client/client.c.o
 
-.PHONY : library/client.o
-
-# target to build an object file
-library/client.c.o:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/client.c.o
-.PHONY : library/client.c.o
-
-library/client.i: library/client.c.i
-
-.PHONY : library/client.i
-
-# target to preprocess a source file
-library/client.c.i:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/client.c.i
-.PHONY : library/client.c.i
-
-library/client.s: library/client.c.s
-
-.PHONY : library/client.s
-
-# target to generate assembly for a file
-library/client.c.s:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/client.c.s
-.PHONY : library/client.c.s
-
-library/lib.o: library/lib.c.o
-
-.PHONY : library/lib.o
+.PHONY : client/client.o
 
 # target to build an object file
-library/lib.c.o:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/lib.c.o
-.PHONY : library/lib.c.o
+client/client.c.o:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/client/client.c.o
+.PHONY : client/client.c.o
 
-library/lib.i: library/lib.c.i
+client/client.i: client/client.c.i
 
-.PHONY : library/lib.i
+.PHONY : client/client.i
 
 # target to preprocess a source file
-library/lib.c.i:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/lib.c.i
-.PHONY : library/lib.c.i
+client/client.c.i:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/client/client.c.i
+.PHONY : client/client.c.i
 
-library/lib.s: library/lib.c.s
+client/client.s: client/client.c.s
 
-.PHONY : library/lib.s
+.PHONY : client/client.s
 
 # target to generate assembly for a file
-library/lib.c.s:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/lib.c.s
-.PHONY : library/lib.c.s
+client/client.c.s:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/client/client.c.s
+.PHONY : client/client.c.s
 
-library/tests.o: library/tests.c.o
+client/tests.o: client/tests.c.o
 
-.PHONY : library/tests.o
+.PHONY : client/tests.o
 
 # target to build an object file
-library/tests.c.o:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/tests.c.o
-.PHONY : library/tests.c.o
+client/tests.c.o:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/client/tests.c.o
+.PHONY : client/tests.c.o
 
-library/tests.i: library/tests.c.i
+client/tests.i: client/tests.c.i
 
-.PHONY : library/tests.i
+.PHONY : client/tests.i
 
 # target to preprocess a source file
-library/tests.c.i:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/tests.c.i
-.PHONY : library/tests.c.i
+client/tests.c.i:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/client/tests.c.i
+.PHONY : client/tests.c.i
 
-library/tests.s: library/tests.c.s
+client/tests.s: client/tests.c.s
 
-.PHONY : library/tests.s
+.PHONY : client/tests.s
 
 # target to generate assembly for a file
-library/tests.c.s:
-	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/tests.c.s
-.PHONY : library/tests.c.s
+client/tests.c.s:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/client/tests.c.s
+.PHONY : client/tests.c.s
+
+library/blocks.o: library/blocks.c.o
+
+.PHONY : library/blocks.o
+
+# target to build an object file
+library/blocks.c.o:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/blocks.c.o
+.PHONY : library/blocks.c.o
+
+library/blocks.i: library/blocks.c.i
+
+.PHONY : library/blocks.i
+
+# target to preprocess a source file
+library/blocks.c.i:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/blocks.c.i
+.PHONY : library/blocks.c.i
+
+library/blocks.s: library/blocks.c.s
+
+.PHONY : library/blocks.s
+
+# target to generate assembly for a file
+library/blocks.c.s:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/blocks.c.s
+.PHONY : library/blocks.c.s
 
 # Help Target
 help:
@@ -213,15 +213,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... sysopy1"
-	@echo "... library/client.o"
-	@echo "... library/client.i"
-	@echo "... library/client.s"
-	@echo "... library/lib.o"
-	@echo "... library/lib.i"
-	@echo "... library/lib.s"
-	@echo "... library/tests.o"
-	@echo "... library/tests.i"
-	@echo "... library/tests.s"
+	@echo "... client/client.o"
+	@echo "... client/client.i"
+	@echo "... client/client.s"
+	@echo "... client/tests.o"
+	@echo "... client/tests.i"
+	@echo "... client/tests.s"
+	@echo "... library/blocks.o"
+	@echo "... library/blocks.i"
+	@echo "... library/blocks.s"
 .PHONY : help
 
 

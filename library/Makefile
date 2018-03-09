@@ -3,21 +3,22 @@ CFLAGS=-g -Wall -std=c99
 
 .PHONY: clean
 
-all: lib_static lib_static_obj
+all: libblocks_static libblocks_static_obj libblocks_dynamic libblocks_dynamic_obj
 
 #static
-lib_static: main.o lib.o
-	$(CC) $(CFLAGS) -o main main.o lib.o
+libblocks_static_obj: blocks.c
+	$(CC) $(CFLAGS) -c $^
 
-lib_static_obj: library/main.c library/lib.c
-	$(CC) $(CFLAGS) -fPIC -c $^
+# ar -> archiver | $@ - means the target | $^ - means all prerequisites
+libblocks_static: blocks.o
+	ar crs $@.a $^
 
 #dynamic
-lib_dynamic: main.o lib.o
+libblocks_dynamic_obj: blocks.c
 	$(CC) $(CFLAGS) -fPIC -c $^
 
-lib_dynamic_obj: library/main.c library/lib.c
+libblocks_dynamic: blocks.o
 	$(CC) -shared $^ -o $@.so
 
 clean:
-	rm -f *.a *.o *.so main
+	rm -f *.a *.o *.so

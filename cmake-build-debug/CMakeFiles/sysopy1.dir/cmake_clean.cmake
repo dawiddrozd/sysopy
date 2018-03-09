@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/sysopy1.dir/library/lib.c.o"
-  "CMakeFiles/sysopy1.dir/library/client.c.o"
-  "CMakeFiles/sysopy1.dir/library/tests.c.o"
+  "CMakeFiles/sysopy1.dir/library/blocks.c.o"
+  "CMakeFiles/sysopy1.dir/client/client.c.o"
+  "CMakeFiles/sysopy1.dir/client/tests.c.o"
   "sysopy1.pdb"
   "sysopy1"
 )

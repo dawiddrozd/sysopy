@@ -82,19 +82,19 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/client.c">
+		<Unit filename="/Users/dawid/CLionProjects/sysopy1/client/client.c">
 			<Option target="sysopy1"/>
 		</Unit>
-		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/lib.c">
+		<Unit filename="/Users/dawid/CLionProjects/sysopy1/client/tests.c">
 			<Option target="sysopy1"/>
 		</Unit>
-		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/lib.h">
+		<Unit filename="/Users/dawid/CLionProjects/sysopy1/client/tests.h">
 			<Option target="sysopy1"/>
 		</Unit>
-		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/tests.c">
+		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/blocks.c">
 			<Option target="sysopy1"/>
 		</Unit>
-		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/tests.h">
+		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/blocks.h">
 			<Option target="sysopy1"/>
 		</Unit>
 		<Unit filename="/Users/dawid/CLionProjects/sysopy1/CMakeLists.txt">

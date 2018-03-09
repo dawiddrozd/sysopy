@@ -8,7 +8,7 @@
 #include <sys/times.h>
 #include <time.h>
 #include <unistd.h>
-#include "lib.h"
+#include "../library/blocks.h"
 #include "tests.h"
 
 typedef struct Args {

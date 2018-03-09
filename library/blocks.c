@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <time.h>
-#include "lib.h"
+#include "blocks.h"
 
 void print_parameter(const char *parameter);
 

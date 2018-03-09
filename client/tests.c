@@ -8,7 +8,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/times.h>
-#include "../library/lib.h"
+#include "../library/blocks.h"
 #include "tests.h"
 
 #define CLK sysconf(_SC_CLK_TCK)
@@ -27,9 +27,14 @@ void print_times(struct tms *beg, clock_t clock_before) {
 }
 
 void load_data(Block *block, int num_elements) {
-    char *path = "/Users/dawid/CLionProjects/sysopy1/library/data.txt";
+    char *path = "/Users/dawid/CLionProjects/sysopy1/client/data.txt";
     char *line = malloc(BUFFER);
     FILE *file = fopen(path, "r");
+
+    if(file == NULL) {
+        printf("File not found.");
+        exit(EXIT_FAILURE);
+    }
 
     for (int i = 0; i < num_elements; i++) {
 

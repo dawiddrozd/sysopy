@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/dawid/CLionProjects/sysopy1/library/client.c
+/Users/dawid/CLionProjects/sysopy1/client/client.c
 stdio.h
 -
 assert.h
@@ -25,32 +25,12 @@ time.h
 -
 unistd.h
 -
-lib.h
+../library/lib.h
 /Users/dawid/CLionProjects/sysopy1/library/lib.h
 tests.h
-/Users/dawid/CLionProjects/sysopy1/library/tests.h
+/Users/dawid/CLionProjects/sysopy1/client/tests.h
 
-/Users/dawid/CLionProjects/sysopy1/library/lib.c
-stdio.h
--
-stdarg.h
--
-stdlib.h
--
-assert.h
--
-stdbool.h
--
-string.h
--
-time.h
--
-lib.h
-/Users/dawid/CLionProjects/sysopy1/library/lib.h
-
-/Users/dawid/CLionProjects/sysopy1/library/lib.h
-
-/Users/dawid/CLionProjects/sysopy1/library/tests.c
+/Users/dawid/CLionProjects/sysopy1/client/tests.c
 stdio.h
 -
 assert.h
@@ -74,7 +54,27 @@ sys/times.h
 ../library/lib.h
 /Users/dawid/CLionProjects/sysopy1/library/lib.h
 tests.h
-/Users/dawid/CLionProjects/sysopy1/library/tests.h
+/Users/dawid/CLionProjects/sysopy1/client/tests.h
 
-/Users/dawid/CLionProjects/sysopy1/library/tests.h
+/Users/dawid/CLionProjects/sysopy1/client/tests.h
+
+/Users/dawid/CLionProjects/sysopy1/library/lib.c
+stdio.h
+-
+stdarg.h
+-
+stdlib.h
+-
+assert.h
+-
+stdbool.h
+-
+string.h
+-
+time.h
+-
+lib.h
+/Users/dawid/CLionProjects/sysopy1/library/lib.h
+
+/Users/dawid/CLionProjects/sysopy1/library/lib.h
 
