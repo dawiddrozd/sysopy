@@ -1,0 +1,3 @@
+/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles/sysopy1.dir
