@@ -25,8 +25,8 @@ time.h
 -
 unistd.h
 -
-../library/lib.h
-/Users/dawid/CLionProjects/sysopy1/library/lib.h
+../library/blocks.h
+/Users/dawid/CLionProjects/sysopy1/library/blocks.h
 tests.h
 /Users/dawid/CLionProjects/sysopy1/client/tests.h
 
@@ -51,14 +51,14 @@ unistd.h
 -
 sys/times.h
 -
-../library/lib.h
-/Users/dawid/CLionProjects/sysopy1/library/lib.h
+../library/blocks.h
+/Users/dawid/CLionProjects/sysopy1/library/blocks.h
 tests.h
 /Users/dawid/CLionProjects/sysopy1/client/tests.h
 
 /Users/dawid/CLionProjects/sysopy1/client/tests.h
 
-/Users/dawid/CLionProjects/sysopy1/library/lib.c
+/Users/dawid/CLionProjects/sysopy1/library/blocks.c
 stdio.h
 -
 stdarg.h
@@ -73,8 +73,8 @@ string.h
 -
 time.h
 -
-lib.h
-/Users/dawid/CLionProjects/sysopy1/library/lib.h
+blocks.h
+/Users/dawid/CLionProjects/sysopy1/library/blocks.h
 
-/Users/dawid/CLionProjects/sysopy1/library/lib.h
+/Users/dawid/CLionProjects/sysopy1/library/blocks.h
 

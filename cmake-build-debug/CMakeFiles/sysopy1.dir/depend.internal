@@ -4,11 +4,11 @@
 CMakeFiles/sysopy1.dir/client/client.c.o
  /Users/dawid/CLionProjects/sysopy1/client/client.c
  /Users/dawid/CLionProjects/sysopy1/client/tests.h
- /Users/dawid/CLionProjects/sysopy1/library/lib.h
+ /Users/dawid/CLionProjects/sysopy1/library/blocks.h
 CMakeFiles/sysopy1.dir/client/tests.c.o
  /Users/dawid/CLionProjects/sysopy1/client/tests.c
  /Users/dawid/CLionProjects/sysopy1/client/tests.h
- /Users/dawid/CLionProjects/sysopy1/library/lib.h
-CMakeFiles/sysopy1.dir/library/lib.c.o
- /Users/dawid/CLionProjects/sysopy1/library/lib.c
- /Users/dawid/CLionProjects/sysopy1/library/lib.h
+ /Users/dawid/CLionProjects/sysopy1/library/blocks.h
+CMakeFiles/sysopy1.dir/library/blocks.c.o
+ /Users/dawid/CLionProjects/sysopy1/library/blocks.c
+ /Users/dawid/CLionProjects/sysopy1/library/blocks.h
