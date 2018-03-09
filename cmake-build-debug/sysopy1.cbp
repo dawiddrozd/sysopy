@@ -91,6 +91,12 @@
 		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/lib.h">
 			<Option target="sysopy1"/>
 		</Unit>
+		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/tests.c">
+			<Option target="sysopy1"/>
+		</Unit>
+		<Unit filename="/Users/dawid/CLionProjects/sysopy1/library/tests.h">
+			<Option target="sysopy1"/>
+		</Unit>
 		<Unit filename="/Users/dawid/CLionProjects/sysopy1/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

@@ -177,6 +177,33 @@ library/lib.c.s:
 	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/lib.c.s
 .PHONY : library/lib.c.s
 
+library/tests.o: library/tests.c.o
+
+.PHONY : library/tests.o
+
+# target to build an object file
+library/tests.c.o:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/tests.c.o
+.PHONY : library/tests.c.o
+
+library/tests.i: library/tests.c.i
+
+.PHONY : library/tests.i
+
+# target to preprocess a source file
+library/tests.c.i:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/tests.c.i
+.PHONY : library/tests.c.i
+
+library/tests.s: library/tests.c.s
+
+.PHONY : library/tests.s
+
+# target to generate assembly for a file
+library/tests.c.s:
+	$(MAKE) -f CMakeFiles/sysopy1.dir/build.make CMakeFiles/sysopy1.dir/library/tests.c.s
+.PHONY : library/tests.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... library/lib.o"
 	@echo "... library/lib.i"
 	@echo "... library/lib.s"
+	@echo "... library/tests.o"
+	@echo "... library/tests.i"
+	@echo "... library/tests.s"
 .PHONY : help
 
 

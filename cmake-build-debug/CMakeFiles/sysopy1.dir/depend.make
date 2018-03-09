@@ -3,7 +3,12 @@
 
 CMakeFiles/sysopy1.dir/library/client.c.o: ../library/client.c
 CMakeFiles/sysopy1.dir/library/client.c.o: ../library/lib.h
+CMakeFiles/sysopy1.dir/library/client.c.o: ../library/tests.h
 
 CMakeFiles/sysopy1.dir/library/lib.c.o: ../library/lib.c
 CMakeFiles/sysopy1.dir/library/lib.c.o: ../library/lib.h
+
+CMakeFiles/sysopy1.dir/library/tests.c.o: ../library/lib.h
+CMakeFiles/sysopy1.dir/library/tests.c.o: ../library/tests.c
+CMakeFiles/sysopy1.dir/library/tests.c.o: ../library/tests.h
 

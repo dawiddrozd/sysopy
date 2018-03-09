@@ -27,6 +27,8 @@ unistd.h
 -
 lib.h
 /Users/dawid/CLionProjects/sysopy1/library/lib.h
+tests.h
+/Users/dawid/CLionProjects/sysopy1/library/tests.h
 
 /Users/dawid/CLionProjects/sysopy1/library/lib.c
 stdio.h
@@ -47,4 +49,32 @@ lib.h
 /Users/dawid/CLionProjects/sysopy1/library/lib.h
 
 /Users/dawid/CLionProjects/sysopy1/library/lib.h
+
+/Users/dawid/CLionProjects/sysopy1/library/tests.c
+stdio.h
+-
+assert.h
+-
+stdlib.h
+-
+lzma.h
+-
+string.h
+-
+ntsid.h
+-
+sys/times.h
+-
+time.h
+-
+unistd.h
+-
+sys/times.h
+-
+../library/lib.h
+/Users/dawid/CLionProjects/sysopy1/library/lib.h
+tests.h
+/Users/dawid/CLionProjects/sysopy1/library/tests.h
+
+/Users/dawid/CLionProjects/sysopy1/library/tests.h
 

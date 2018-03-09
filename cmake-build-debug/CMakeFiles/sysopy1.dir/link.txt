@@ -1,1 +1,1 @@
-/Library/Developer/CommandLineTools/usr/bin/cc -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/sysopy1.dir/library/lib.c.o CMakeFiles/sysopy1.dir/library/client.c.o  -o sysopy1 
+/Library/Developer/CommandLineTools/usr/bin/cc -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/sysopy1.dir/library/lib.c.o CMakeFiles/sysopy1.dir/library/client.c.o CMakeFiles/sysopy1.dir/library/tests.c.o  -o sysopy1 

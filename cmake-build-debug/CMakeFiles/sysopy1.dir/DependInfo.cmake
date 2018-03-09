@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_C
   "/Users/dawid/CLionProjects/sysopy1/library/client.c" "/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles/sysopy1.dir/library/client.c.o"
   "/Users/dawid/CLionProjects/sysopy1/library/lib.c" "/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles/sysopy1.dir/library/lib.c.o"
+  "/Users/dawid/CLionProjects/sysopy1/library/tests.c" "/Users/dawid/CLionProjects/sysopy1/cmake-build-debug/CMakeFiles/sysopy1.dir/library/tests.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 
