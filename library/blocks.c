@@ -125,16 +125,19 @@ void delete_some(Block *block, int num_to_delete) {
         delete_all(block);
         return;
     }
-    int idx;
+    int idx = rand() % block->size;
     srand((unsigned int) time(NULL));
     int deleted = 0;
     while (deleted != num_to_delete) {
-        idx = rand() % block->size;
-        if (*block->array[idx] != 0) {
-            free(block->array[idx]);
-            block->array[idx] = calloc((size_t) block->block_size, sizeof(char));
-            block->used--;
-            deleted++;
+        for(;deleted<num_to_delete;) {
+            idx++;
+            idx=idx % block->size;
+            if (*block->array[idx] != 0) {
+                free(block->array[idx]);
+                block->array[idx] = calloc((size_t) block->block_size, sizeof(char));
+                block->used--;
+                deleted++;
+            }
         }
     }
 }
@@ -160,8 +163,7 @@ char *search_for(Block *block) {
             }
         }
     }
-    printf("Best difference is for:\n"
-                   "%s and it is %d\n", best, best_diff);
+    //printf("Best difference is for:\n%s and it is %d\n", best, best_diff);
     return best;
 }
 

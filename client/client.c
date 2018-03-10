@@ -1,5 +1,5 @@
 #ifdef DYNAMIC
-    #include <dlfcn.h>
+#include <dlfcn.h>
 #endif
 
 #include <stdio.h>
@@ -18,13 +18,23 @@
 typedef struct Args {
     int num_elements;
     int block_size;
+    char *allocation_method;
+    char *test;
+    int test_number;
+
 } Args;
 
 Args process_arguments(int argc, char **argsv);
 
-void printArgs(Args args);
+void print_args(Args args);
 
 void load_data(Block *block, int num_elements);
+
+Block* test_a(Args args);
+
+Block* test_b(Args args);
+
+Block* test_c(Args args);
 
 //liczba elementów, rozmiar bloku, sposób alokacji, spis wykonywanych operacji
 int main(int argc, char **argsv) {
@@ -36,19 +46,26 @@ int main(int argc, char **argsv) {
 #endif
 
     Args args = process_arguments(argc, argsv);
-    //printArgs(args);
+    //print_args(args);
+    Block *block;
 
-    Block *block = test_create_block(args.num_elements, args.block_size);
-    //char* found = test_search(block);
-    test_search(block);
-    test_del_add(block, args.num_elements / 2);
-    //print(block);
-    //delete_all(block);
-    test_del_add_alternally(block, args.num_elements / 2);
-    //print(block);
+    switch(args.test[1]) {
+        case 'a':
+            block = test_a(args);
+            break;
+        case 'b':
+            block = test_b(args);
+            break;
+        case 'c':
+            block = test_c(args);
+            break;
+        default:
+            printf("Can't parse fourth argument: Expected -a -b -c\n");
+            exit(EXIT_FAILURE);
+    }
+
     delete_all(block);
 
-    //print(block);
 #ifdef DYNAMIC
     dlclose(lib);
 #endif
@@ -56,8 +73,8 @@ int main(int argc, char **argsv) {
 }
 
 Args process_arguments(int argc, char **argsv) {
-    if (argc < 2) {
-        printf("Incorrect number of arguments: 4 expected.\n");
+    if (argc != 6) {
+        printf("Incorrect number of arguments: 5 expected.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -74,16 +91,69 @@ Args process_arguments(int argc, char **argsv) {
         exit(EXIT_FAILURE);
     }
 
+    char *allocation_method = argsv[3];
+    if (strcmp(allocation_method, "-static") != 0
+        && strcmp(allocation_method, "-dynamic") != 0) {
+        printf("Can't parse third argument: Expected -static or -dynamic\n");
+        exit(EXIT_FAILURE);
+    }
+
+    char *fourth = argsv[4];
+    if(fourth[0] != (char) '-' && strlen(fourth)!=2) {
+        printf("Can't parse fourth argument: Expected -a -b -c\n");
+        exit(EXIT_FAILURE);
+    }
+
+    int fifth = (int) strtol(argsv[5], &errptr, 10);
+    if (*errptr != '\0') {
+        printf("Can't parse fifth argument: Only numbers are expected.\n");
+        exit(EXIT_FAILURE);
+    }
+
     Args args;
     args.num_elements = num_elements;
     args.block_size = block_size;
+    args.allocation_method = allocation_method;
+    args.test = fourth;
+    args.test_number = fifth;
+
+    if(args.test_number > args.num_elements) {
+        printf("Number of elements to delete should be smaller than used elements.\n");
+        exit(EXIT_FAILURE);
+    }
 
     return args;
 }
 
-void printArgs(Args args) {
+void print_args(Args args) {
     printf("num_elements = %d\n"
                    "block_size = %d\n",
            args.num_elements, args.block_size);
 
+}
+
+// stworzenie tablicy,
+// wyszukanie elementu
+// usunięcie i dodanie zadanej liczby bloków
+/* -a 2000 */
+Block* test_a(Args args) {
+    Block* block = test_create_block(args.num_elements, args.block_size);
+    test_search(block);
+    test_del_add(block, args.test_number);
+    return block;
+}
+
+//stworzenie tablicy, usunięcie i dodanie zadanej liczby bloków
+Block* test_b(Args args) {
+    Block* block = test_create_block(args.num_elements, args.block_size);
+    test_del_add(block, args.test_number);
+    //print(block);
+    return block;
+}
+
+//stworzenie tablicy, naprzemienne usunięcie i dodanie zadanej liczby bloków).
+Block* test_c(Args args) {
+    Block* block = test_create_block(args.num_elements, args.block_size);
+    test_del_add_alternally(block, args.test_number);
+    return block;
 }

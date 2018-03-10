@@ -1,6 +1,9 @@
 CC=gcc
 CFLAGS=-g -Wall -std=c99
 FILENAME=../results/results
+BLOCK_SIZE=128
+NUM_OF_ELEMENTS=20000
+TEST_NUMBER=10000
 
 .PHONY: clean
 
@@ -17,11 +20,29 @@ client_shared: client.c tests.c
 
 results:
 	echo "STATIC LINKED\n" > $(FILENAME)
-	./client_static.out 10000 128 >> $(FILENAME)
+	echo "\nTEST A:" >> $(FILENAME)
+	./client_static.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -a $(TEST_NUMBER) >> $(FILENAME)
+	echo "\nTEST B:" >> $(FILENAME)
+	./client_static.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -b $(TEST_NUMBER) >> $(FILENAME)
+	echo "\nTEST B:" >> $(FILENAME)
+	./client_static.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -c $(TEST_NUMBER) >> $(FILENAME)
+
 	echo "\n\nDYNAMIC LINKED\n" >> $(FILENAME)
-	./client_dynamic.out 10000 128 >> $(FILENAME)
+	echo "\nTEST A:" >> $(FILENAME)
+	./client_dynamic.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -a $(TEST_NUMBER) >> $(FILENAME)
+	echo "\nTEST B:" >> $(FILENAME)
+	./client_dynamic.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -b $(TEST_NUMBER) >> $(FILENAME)
+	echo "\nTEST C:" >> $(FILENAME)
+	./client_dynamic.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -c $(TEST_NUMBER) >> $(FILENAME)
+
 	echo "\n\nSHARED LINKED\n" >> $(FILENAME)
-	./client_shared.out 10000 128 >> $(FILENAME)
+	echo "\nTEST A:" >> $(FILENAME)
+	./client_shared.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -a $(TEST_NUMBER) >> $(FILENAME)
+	echo "\nTEST B:" >> $(FILENAME)
+	./client_shared.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -b $(TEST_NUMBER) >> $(FILENAME)
+	echo "\nTEST C:" >> $(FILENAME)
+	./client_shared.out $(NUM_OF_ELEMENTS) $(BLOCK_SIZE) -static -c $(TEST_NUMBER) >> $(FILENAME)
+
 
 o1: CFLAGS+= -O1
 o1: FILENAME=../results/results1.txt

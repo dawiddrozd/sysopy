@@ -60,7 +60,7 @@ Block *test_create_block(int num_elements, int block_size) {
 #ifdef DYNAMIC
     Block* (*create)(int, int) = dlsym(lib, "create");
 #endif
-    printf("Blocks creation:\n");
+    printf("Blocks creation:\nNumber of elements: %d\nBlock size: %d\n",num_elements,block_size);
     times(&begin);
     clock_curr = clock();
     Block *block = create(num_elements,block_size);

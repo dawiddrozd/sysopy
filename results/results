@@ -1,40 +1,88 @@
 STATIC LINKED
 
+
+TEST A:
 Blocks creation:
-Real: 0.003019, System: 0.000000, User: 0.000000
+Number of elements: 20000
+Block size: 128
+Real: 0.006695, System: 0.000000, User: 0.000000
 Searching:
-Best difference is for:
-Mollis Integer Tincidunt Foundation and it is 0
-Real: 0.000612, System: 0.000000, User: 0.000000
+Real: 0.001212, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.145433, System: 0.000000, User: 0.140000
+Real: 0.806506, System: 0.010000, User: 0.800000
+
+TEST B:
+Blocks creation:
+Number of elements: 20000
+Block size: 128
+Real: 0.009375, System: 0.000000, User: 0.000000
+Deleting and adding in sequence:
+Real: 0.826426, System: 0.010000, User: 0.820000
+
+TEST B:
+Blocks creation:
+Number of elements: 20000
+Block size: 128
+Real: 0.006658, System: 0.000000, User: 0.000000
 Deleting and adding alternally:
-Real: 0.569477, System: 0.050000, User: 0.520000
+Real: 1.030678, System: 0.130000, User: 0.900000
 
 
 DYNAMIC LINKED
 
+
+TEST A:
 Blocks creation:
-Real: 0.002825, System: 0.000000, User: 0.000000
+Number of elements: 20000
+Block size: 128
+Real: 0.007550, System: 0.000000, User: 0.000000
 Searching:
-Best difference is for:
-Mollis Integer Tincidunt Foundation and it is 0
-Real: 0.000810, System: 0.000000, User: 0.000000
+Real: 0.001272, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.144502, System: 0.000000, User: 0.140000
+Real: 0.793300, System: 0.000000, User: 0.790000
+
+TEST B:
+Blocks creation:
+Number of elements: 20000
+Block size: 128
+Real: 0.007864, System: 0.000000, User: 0.000000
+Deleting and adding in sequence:
+Real: 0.780102, System: 0.000000, User: 0.780000
+
+TEST C:
+Blocks creation:
+Number of elements: 20000
+Block size: 128
+Real: 0.007411, System: 0.000000, User: 0.000000
 Deleting and adding alternally:
-Real: 0.402296, System: 0.050000, User: 0.350000
+Real: 2.166671, System: 0.120000, User: 2.040000
 
 
 SHARED LINKED
 
+
+TEST A:
 Blocks creation:
-Real: 0.002931, System: 0.000000, User: 0.000000
+Number of elements: 20000
+Block size: 128
+Real: 0.007327, System: 0.000000, User: 0.000000
 Searching:
-Best difference is for:
-Mollis Integer Tincidunt Foundation and it is 0
-Real: 0.001016, System: 0.000000, User: 0.000000
+Real: 0.001520, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.147690, System: 0.000000, User: 0.150000
+Real: 0.790648, System: 0.000000, User: 0.790000
+
+TEST B:
+Blocks creation:
+Number of elements: 20000
+Block size: 128
+Real: 0.006021, System: 0.000000, User: 0.000000
+Deleting and adding in sequence:
+Real: 0.786282, System: 0.000000, User: 0.790000
+
+TEST C:
+Blocks creation:
+Number of elements: 20000
+Block size: 128
+Real: 0.005686, System: 0.000000, User: 0.000000
 Deleting and adding alternally:
-Real: 0.333339, System: 0.050000, User: 0.280000
+Real: 0.934361, System: 0.110000, User: 0.820000
