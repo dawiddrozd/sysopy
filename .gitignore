@@ -5,3 +5,4 @@ cmake*
 /client/*.so
 /library/*.a
 /library/*.so
+.idea
