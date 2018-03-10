@@ -5,27 +5,27 @@ TEST A:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.006695, System: 0.000000, User: 0.000000
+Real: 0.005674, System: 0.000000, User: 0.000000
 Searching:
-Real: 0.001212, System: 0.000000, User: 0.000000
+Real: 0.001219, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.806506, System: 0.010000, User: 0.800000
+Real: 0.807569, System: 0.000000, User: 0.800000
 
 TEST B:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.009375, System: 0.000000, User: 0.000000
+Real: 0.008494, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.826426, System: 0.010000, User: 0.820000
+Real: 0.825726, System: 0.010000, User: 0.820000
 
 TEST B:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.006658, System: 0.000000, User: 0.000000
+Real: 0.006017, System: 0.000000, User: 0.000000
 Deleting and adding alternally:
-Real: 1.030678, System: 0.130000, User: 0.900000
+Real: 0.434158, System: 0.100000, User: 0.330000
 
 
 DYNAMIC LINKED
@@ -35,27 +35,27 @@ TEST A:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.007550, System: 0.000000, User: 0.000000
+Real: 0.005741, System: 0.000000, User: 0.000000
 Searching:
-Real: 0.001272, System: 0.000000, User: 0.000000
+Real: 0.001213, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.793300, System: 0.000000, User: 0.790000
+Real: 0.802918, System: 0.000000, User: 0.800000
 
 TEST B:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.007864, System: 0.000000, User: 0.000000
+Real: 0.005958, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.780102, System: 0.000000, User: 0.780000
+Real: 0.795817, System: 0.000000, User: 0.790000
 
 TEST C:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.007411, System: 0.000000, User: 0.000000
+Real: 0.007085, System: 0.000000, User: 0.000000
 Deleting and adding alternally:
-Real: 2.166671, System: 0.120000, User: 2.040000
+Real: 1.806451, System: 0.150000, User: 1.660000
 
 
 SHARED LINKED
@@ -65,24 +65,24 @@ TEST A:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.007327, System: 0.000000, User: 0.000000
+Real: 0.005905, System: 0.000000, User: 0.000000
 Searching:
-Real: 0.001520, System: 0.000000, User: 0.000000
+Real: 0.001243, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.790648, System: 0.000000, User: 0.790000
+Real: 0.806514, System: 0.000000, User: 0.800000
 
 TEST B:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.006021, System: 0.000000, User: 0.000000
+Real: 0.005980, System: 0.000000, User: 0.000000
 Deleting and adding in sequence:
-Real: 0.786282, System: 0.000000, User: 0.790000
+Real: 0.811963, System: 0.000000, User: 0.810000
 
 TEST C:
 Blocks creation:
 Number of elements: 20000
 Block size: 128
-Real: 0.005686, System: 0.000000, User: 0.000000
+Real: 0.005802, System: 0.000000, User: 0.000000
 Deleting and adding alternally:
-Real: 0.934361, System: 0.110000, User: 0.820000
+Real: 0.635530, System: 0.110000, User: 0.520000
