@@ -1,0 +1,9 @@
+.idea
+cmake*
+/client/*.dSYM
+/client/*.out
+/client/*.so
+/library/*.a
+/library/*.so
+.idea
+.idea/*
