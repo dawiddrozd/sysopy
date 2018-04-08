@@ -1,0 +1,6 @@
+ls -l
+     echo FIRST!
+    echo SECOND
+pwd
+./loop.out 1000000
+./sleep.out
