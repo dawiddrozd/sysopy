@@ -46,6 +46,7 @@ bool CREATED_FLAG = false;
 void exit_properly();
 
 static void sa_sigaction_handler(int sig, siginfo_t *siginfo, void *context) {
+
     if (sig == SIGINT) {
         exit_properly();
     }
@@ -53,6 +54,7 @@ static void sa_sigaction_handler(int sig, siginfo_t *siginfo, void *context) {
 }
 
 int parse_string(char *string) {
+
     char *errptr;
     int number = (int) strtol(string, &errptr, 10);
     if (*errptr != '\0') {
@@ -63,11 +65,12 @@ int parse_string(char *string) {
 }
 
 void exit_properly() {
+
     for (int i = 0; i < nr_of_children; i++) {
         int nr_of_killed = 0;
-        if(children_pids[i] > 0) {
+        if (children_pids[i] > 0) {
             kill(children_pids[i], SIGKILL);
-            if(CREATED_FLAG)
+            if (CREATED_FLAG)
                 printf("[%d] was killed\n", children_pids[i]);
         }
     }
@@ -80,18 +83,18 @@ pid_t f(siginfo_t *siginfo) {
     int status;
     pid_t pid = waitpid(siginfo->si_pid, &status, 0);
     if (pid != -1) {
+
         if (DONE_FLAG)
             printf(CYAN"[%d] Child process [%d] done with exit code %d.\n"RESET, ++DONE_COUNT, siginfo->si_pid,
                    WEXITSTATUS(status));
         nr_of_children_counter--;
 
         for (int i = 0; i < nr_of_children; i++) {
-            if(children_pids[i] == pid) {
+            if (children_pids[i] == pid) {
                 children_pids[i] = -1;
                 break;
             }
         }
-
         if (nr_of_children_counter == 0) {
             printf(BLUE "[DONE] All children are done. Program exited successfully.\n" RESET);
             exit_properly();
@@ -103,6 +106,7 @@ pid_t f(siginfo_t *siginfo) {
 void handle_signal(siginfo_t *siginfo) {
     int sig = siginfo->si_signo;
     if (sig == SIGUSR1 && PASS_EVERYONE == false) {
+
         if (RECEIVED_FLAG)
             printf(RED "[%d] SIGUSR1 received from %d\n" RESET, ++RECEIVED_COUNT, siginfo->si_pid);
 
@@ -119,15 +123,16 @@ void handle_signal(siginfo_t *siginfo) {
             PASS_EVERYONE = true;
         }
     } else if (sig == SIGUSR1 && PASS_EVERYONE == true) {
+
         if (RECEIVED_FLAG)
             printf(RED "[%d] SIGUSR1 received from %d\n" RESET, ++RECEIVED_COUNT, siginfo->si_pid);
         if (CONTINUE_FLAG)
             printf(GREEN "[%d] Sending CONTINUE to %d\n" RESET, ++CONTINUE_COUNT, siginfo->si_pid);
         kill(siginfo->si_pid, SIGCONT);
     } else if (sig >= SIGRTMIN && sig <= SIGRTMAX) {
+
         if (RT_RECEIVED_FLAG)
             printf(MAGNETA "[%d] REALTIME%d received from %d\n" RESET, ++RT_RECEIVED_COUNT, sig, siginfo->si_pid);
-
         if (f(siginfo) < 0) {
             printf(RED "!!! Can't access PID = %d \n" RESET, siginfo->si_pid);
         }
