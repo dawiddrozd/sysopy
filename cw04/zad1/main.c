@@ -1,15 +1,18 @@
+#define _POSIX_SOURCE
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
 #include <sys/errno.h>
+#include <sys/types.h>
 #include <stdlib.h>
 #include <memory.h>
+#include <wait.h>
 
 pid_t CHILD_PID = -1;
 
-static void sigstp_pause(int signo);
+void sigstp_pause(int signo);
 
-static void run() {
+void run() {
     int pid = fork();
     if (pid < 0) {
         fprintf(stderr, "Error: %s: %s\n", strerror(errno), "Fork failed");
@@ -23,22 +26,20 @@ static void run() {
                 fprintf(stderr, "Error: %s: %s\n", strerror(errno), "Fork in for loop failed");
                 exit(errno);
             } else if (pid_for == 0) {
-                // printf("Process with PID = %d started!\n", getpid());
                 signal(SIGINT, SIG_IGN);
                 signal(SIGTSTP, SIG_IGN);
-                execlp("date", "date", (char *) NULL);
+                execlp("date", "date", NULL);
             }
             int status;
-            waitpid(pid_for, &status, (int) NULL);
+            waitpid(pid_for, &status, 0);
             sleep(1);
         }
     } else {
-        pid_t status;
         CHILD_PID = pid;
     }
 }
 
-static void sig_usr(int signo) {
+void sig_usr(int signo) {
     if (signo == SIGINT) {
         printf(": Odebrano sygnał SIGINT\n");
         if (CHILD_PID > 0) {
@@ -49,7 +50,7 @@ static void sig_usr(int signo) {
     }
 }
 
-static void sigtstp_running(int signo) {
+void sigtstp_running(int signo) {
     if (signo == SIGTSTP) {
         if (CHILD_PID > 0) {
             kill(CHILD_PID, SIGKILL);
@@ -64,7 +65,7 @@ static void sigtstp_running(int signo) {
     }
 }
 
-static void sigstp_pause(int signo) {
+void sigstp_pause(int signo) {
     if (signo == SIGTSTP) {
         // set proper handler
         struct sigaction act;

@@ -1,13 +1,18 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <signal.h>
-#include <string.h>
-#include <stdint.h>
 #include <stdlib.h>
-#include <sys/errno.h>
+#include <bits/signum.h>
+#include <signal.h>
+#include <unistd.h>
+#include <printf.h>
+#include <bits/errno.h>
+#include <errno.h>
+#include <memory.h>
+#include <stdio.h>
 #include <time.h>
 #include <stdbool.h>
 #include <wait.h>
+#include <bits/siginfo.h>
+#include <sys/param.h>
+#include <sys/types.h>
 
 #define RED     "\x1b[91m"
 #define CYAN    "\x1b[36m"
@@ -67,7 +72,6 @@ int parse_string(char *string) {
 void exit_properly() {
 
     for (int i = 0; i < nr_of_children; i++) {
-        int nr_of_killed = 0;
         if (children_pids[i] > 0) {
             kill(children_pids[i], SIGKILL);
             if (CREATED_FLAG)
