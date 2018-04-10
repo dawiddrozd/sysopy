@@ -1,3 +1,0 @@
-/media/psf/Home/CLionProjects/sysopy/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/media/psf/Home/CLionProjects/sysopy/cmake-build-debug/CMakeFiles/edit_cache.dir
-/media/psf/Home/CLionProjects/sysopy/cmake-build-debug/CMakeFiles/sysopy4.dir
