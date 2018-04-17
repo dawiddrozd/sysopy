@@ -1,0 +1,4 @@
+ls -l
+     echo FIRST!
+    echo SECOND
+pwdd
