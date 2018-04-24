@@ -1,4 +1,3 @@
-ls -l
-     echo FIRST!
-    echo SECOND
-pwdd
+ls -al | grep 1 | grep test
+31231232132ewqreter
+ls -al | wc -l

@@ -77,10 +77,10 @@ void parent(int L) {
             for (int i = 0; i < L; i++) {
                 printf(BLUE "[%d] SIGUSR1 sent to child.\n" RESET, ++PARENT_SIGNALS_SENT);
                 kill(CHILD_PID, SIGUSR1);
-                sleep(1);
+                //sleep(1);
             }
-            while(PARENT_SIGNALS_SENT!=PARENT_SIGNALS_RECEIVED)
-                sleep(10);
+            //while(PARENT_SIGNALS_SENT!=PARENT_SIGNALS_RECEIVED)
+            //    sleep(10);
             kill(CHILD_PID, SIGUSR2);
             break;
         case 2:

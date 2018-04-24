@@ -1,7 +1,3 @@
-//
-// Created by Dawid Drozd on 19.03.2018.
-//
-
 #include <memory.h>
 #include <stdio.h>
 #include <stdlib.h>
