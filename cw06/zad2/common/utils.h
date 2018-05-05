@@ -9,14 +9,18 @@
 #include <stdlib.h>
 #include <pwd.h>
 #include <stdbool.h>
+#include <mqueue.h>
 
 #define RED     "\x1b[91m"
 #define RESET   "\x1b[0m"
 #define BLUE    "\x1b[34m"
 #define GREEN   "\x1b[32m"
 
-#define MAX_BUFF_SIZE 256
+#define MAX_MSG_SIZE sizeof(struct msg_buf)
+#define MAX_TEXT 128
 #define MAX_CMDS 16
+#define MAX_NR_MESSAGES 64
+#define MAIN_PATH "/queue"
 
 #define SERVER_INIT 1
 #define SERVER_MIRROR 2
@@ -28,22 +32,17 @@
 #define SERVER_TIME 8
 #define SERVER_END 9
 
-#define COMMON_KEY 's'
-#define MSG_BUFF_SIZE (int) sizeof(struct msgbuf) - sizeof(long)
+#define PRIORITY 1
 
-struct msgbuf {
+struct msg_buf {
     long mtype;
-    int client_id;
-    char text[MAX_BUFF_SIZE];
+    mqd_t client_id;
+    char text[MAX_TEXT];
     int nums[2];
 };
 
-const char *homedir();
+const char *public_queue_path();
 
 void IF(bool correct, const char *message);
-
-int get_common_key();
-
-int get_private_key();
 
 #endif //SYSOPY4_UTILS_H

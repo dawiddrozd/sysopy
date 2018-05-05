@@ -1,32 +1,40 @@
-#include <sys/msg.h>
-#include <sys/ipc.h>
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <memory.h>
 #include <string.h>
 #include <time.h>
 #include "../common/utils.h"
+#include <signal.h>
+#include <unistd.h>
+#include <mqueue.h>
+#include <sys/types.h>
+#include <sys/msg.h>
+#include <errno.h>
 
-const int MAX_CLIENTS = 100;
+#define MAX_CLIENTS 100
+#define SIGINT 2
+
 int CLIENTS_QUEUE[MAX_CLIENTS];
-int COMMON_QUEUE = -1;
+int PUBLIC_QUEUE = -1;
 
 void stop_handler(int signum) {
     printf("[S] SERVER STOPPED!\n");
     for (int i = 0; i < MAX_CLIENTS; i++) {
         if (CLIENTS_QUEUE[i] != -1) {
-            msgctl(CLIENTS_QUEUE[i], IPC_RMID, NULL);
+            mq_close(CLIENTS_QUEUE[i]);
             printf("[S] Queue[%d] stopped\n", CLIENTS_QUEUE[i]);
         }
     }
-    msgctl(COMMON_QUEUE, IPC_RMID, NULL);
-    printf("[S] Queue[%d] stopped\n", COMMON_QUEUE);
+    mq_close(PUBLIC_QUEUE);
+    mq_unlink(MAIN_PATH);
+    printf("[S] Queue[%d] stopped\n", PUBLIC_QUEUE);
     printf("DONE.\n");
     exit(0);
 }
 
-void handle_math(struct msgbuf msgbuf);
+void handle_math(struct msg_buf msgbuf);
 
-void reverse(char s[MAX_BUFF_SIZE]) {
+void reverse(char s[MAX_MSG_SIZE]) {
     size_t length = strlen(s);
     char c;
 
@@ -37,8 +45,8 @@ void reverse(char s[MAX_BUFF_SIZE]) {
     }
 }
 
-void handle_new(struct msgbuf received_msg) {
-    struct msgbuf msg_to_send;
+void handle_new(struct msg_buf received_msg) {
+    struct msg_buf msg_to_send;
     printf("[S] [INIT] New client: %d\n", received_msg.client_id);
 
     int client_id = 0;
@@ -47,38 +55,42 @@ void handle_new(struct msgbuf received_msg) {
         printf(RED "[S] [ERROR] Max size!" RESET);
         return;
     }
-    CLIENTS_QUEUE[client_id] = received_msg.client_id;
+
+    CLIENTS_QUEUE[client_id] = mq_open(received_msg.text,O_WRONLY);
+    if(CLIENTS_QUEUE[client_id] < 0 ) {
+        printf(RED "[C] Can't open queue file with path: %s!: %s\n" RESET, received_msg.text, strerror(errno));
+    }
 
     msg_to_send.mtype = SERVER_INIT;
     msg_to_send.client_id = client_id;
 
     int snd;
-    snd = msgsnd(received_msg.client_id, &msg_to_send, MSG_BUFF_SIZE, IPC_NOWAIT);
+    snd = mq_send(CLIENTS_QUEUE[client_id], (char *) &msg_to_send, MAX_MSG_SIZE, PRIORITY);
     if (snd < 0)
-        printf(RED "[S] [ERROR] Problem with sending message\n" RESET);
+        printf(RED "[S] [ERROR] Problem with sending message: %s\n" RESET, strerror(errno));
     else
         printf("[S] [INIT] Message sent to client[%d]\n", client_id);
 }
 
-void handle_mirror(struct msgbuf msg) {
-    printf("[S] [MIRROR] New message received: %d\n", msg.client_id);
+void handle_mirror(struct msg_buf *msg) {
+    printf("[S] [MIRROR] New message received: %d\n", msg->client_id);
 
-    if (CLIENTS_QUEUE[msg.client_id] == -1) {
+    if (CLIENTS_QUEUE[msg->client_id] == -1) {
         printf("[S] [ERROR] Client not registered\n");
         return;
     }
-    int client_queue_id = CLIENTS_QUEUE[msg.client_id];
-    reverse(msg.text);
+    int client_queue_id = CLIENTS_QUEUE[msg->client_id];
+    reverse(msg->text);
 
     int snd;
-    snd = msgsnd(client_queue_id, &msg, MSG_BUFF_SIZE, IPC_NOWAIT);
+    snd = mq_send(client_queue_id, (char *) msg, MAX_MSG_SIZE, PRIORITY);
     if (snd < 0)
         printf("[S] [ERROR] Problem with sending message\n");
     else
-        printf("[S] [MIRROR] Message sent to client[%d]\n", msg.client_id);
+        printf("[S] [MIRROR] Message sent to client[%d]\n", msg->client_id);
 }
 
-void handle_time(struct msgbuf msg) {
+void handle_time(struct msg_buf msg) {
     printf("[S] [TIME] New message received from %d\n", msg.client_id);
 
     if (CLIENTS_QUEUE[msg.client_id] == -1) {
@@ -93,41 +105,40 @@ void handle_time(struct msgbuf msg) {
     strftime(msg.text, sizeof(msg.text), "%c", tm);
 
     int snd;
-    snd = msgsnd(client_queue_id, &msg, MSG_BUFF_SIZE, IPC_NOWAIT);
+    snd = mq_send(client_queue_id, (char *) &msg, MAX_MSG_SIZE, PRIORITY);
     if (snd < 0)
         printf("[S] [ERROR] Problem with sending message\n");
     else
         printf("[S] [TIME] Message sent to client[%d]\n", msg.client_id);
 }
 
-void handle_stop(struct msgbuf msg) {
+void handle_stop(struct msg_buf msg) {
     printf("[S] [STOP] New message received from %d\n", msg.client_id);
     if (CLIENTS_QUEUE[msg.client_id] == -1) {
         printf("[S] [ERROR] Client not registered\n");
         return;
     }
     int private_queue_id = CLIENTS_QUEUE[msg.client_id];
-    msgctl(private_queue_id, IPC_RMID, NULL);
+    mq_close(private_queue_id);
     CLIENTS_QUEUE[msg.client_id] = -1;
 }
 
 void reveive() {
-    struct msgbuf received_msg;
-    struct msqid_ds stat;
+    struct msg_buf received_msg;
     bool server_end = false;
-    msgqnum_t how_many = 1;
+    __syscall_slong_t how_many = 1;
     while (how_many > 0) {
         ssize_t size;
-        size = msgrcv(COMMON_QUEUE, &received_msg, sizeof(received_msg), 0, 0);
-        if (size < 0)
-            printf("[S] [ERROR] Receiving failed");
+        size = mq_receive(PUBLIC_QUEUE, (char*) &received_msg, MAX_MSG_SIZE, NULL);
+        received_msg = received_msg;
+        IF(size < 0, "[S] [ERROR] Receiving failed\n");
 
         switch (received_msg.mtype) {
             case SERVER_INIT:
                 handle_new(received_msg);
                 break;
             case SERVER_MIRROR:
-                handle_mirror(received_msg);
+                handle_mirror(&received_msg);
                 break;
             case SERVER_TIME:
                 handle_time(received_msg);
@@ -143,8 +154,9 @@ void reveive() {
                 break;
             case SERVER_END:
                 printf("[S] [END] SERVER END command received\n");
-                msgctl(COMMON_QUEUE, IPC_STAT, &stat);
-                how_many = stat.msg_qnum + 1;
+                struct mq_attr attr;
+                mq_getattr(PUBLIC_QUEUE, &attr);
+                how_many = attr.mq_curmsgs + 1;
                 server_end = true;
                 break;
             default:
@@ -155,7 +167,7 @@ void reveive() {
     stop_handler(0);
 }
 
-void handle_math(struct msgbuf msgbuf) {
+void handle_math(struct msg_buf msgbuf) {
     printf("[S] [MATH] New message received from %d\n", msgbuf.client_id);
     int a = msgbuf.nums[0];
     int b = msgbuf.nums[1];
@@ -187,7 +199,7 @@ void handle_math(struct msgbuf msgbuf) {
 
     msgbuf.nums[0] = result;
     int snd;
-    snd = msgsnd(client_queue_id, &msgbuf, MSG_BUFF_SIZE, IPC_NOWAIT);
+    snd = mq_send(client_queue_id, (char *) &msgbuf, MAX_MSG_SIZE, PRIORITY);
     if (snd < 0)
         printf("[S] [ERROR] Problem with sending message\n");
     else
@@ -195,13 +207,17 @@ void handle_math(struct msgbuf msgbuf) {
 }
 
 int main(int argc, char **argv) {
-    //create common queue
-    key_t common_key = get_common_key();
+    //create public queue
+    struct mq_attr attr;
+    attr.mq_flags = O_NONBLOCK;
+    attr.mq_maxmsg = MAX_NR_MESSAGES;
+    attr.mq_msgsize = MAX_MSG_SIZE;
+    attr.mq_curmsgs = 0;
 
-    COMMON_QUEUE = msgget(common_key, IPC_CREAT | 0660);
-    IF(COMMON_QUEUE < 0, "[C] Problem with creating common queue");
+    PUBLIC_QUEUE = mq_open(MAIN_PATH, O_CREAT | O_RDONLY, 0664, &attr);
+    IF(PUBLIC_QUEUE < 0, "[C] Problem with creating public queue");
 
-    printf("[S] Common queue opened with ID[%d]\n", COMMON_QUEUE);
+    printf("[S] Common queue opened with ID[%d]\n", PUBLIC_QUEUE);
 
     for (int i = 0; i < MAX_CLIENTS; i++) {
         CLIENTS_QUEUE[i] = -1;

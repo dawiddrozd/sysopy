@@ -1,7 +1,6 @@
 INIT
-  MIRROR     Jak sie masz
-        TIME
-    ADD         2  3 4
-MUL    5    2
-END
-STOP
+MIRROR Jak sie masz
+TIME
+ADD 222 333
+SUB 555 222
+STOPP

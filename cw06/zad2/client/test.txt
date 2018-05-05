@@ -1,7 +1,5 @@
 INIT
   MIRROR     Jak sie masz
         TIME
-    ADD         2  3 4
-MUL    5    2
-END
-STOP
+    ADD         22222  11111
+MUL    55324    25

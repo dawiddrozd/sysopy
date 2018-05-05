@@ -29,9 +29,9 @@
 #define SERVER_END 9
 
 #define COMMON_KEY 's'
-#define MSG_BUFF_SIZE (int) sizeof(struct msgbuf) - sizeof(long)
+#define MSG_BUFF_SIZE (int) sizeof(struct msg_buf) - sizeof(long)
 
-struct msgbuf {
+struct msg_buf {
     long mtype;
     int client_id;
     char text[MAX_BUFF_SIZE];

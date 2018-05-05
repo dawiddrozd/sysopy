@@ -1,7 +1,7 @@
 //
 // Created by Dawid Drozd on 23.04.2018.
 //
-
+#define _GNU_SOURCE
 #include <sys/msg.h>
 #include <sys/ipc.h>
 #include "utils.h"

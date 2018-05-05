@@ -1,3 +1,5 @@
+#define _GNU_SOURCE
+#include <signal.h>
 #include <sys/msg.h>
 #include <sys/ipc.h>
 #include <stdio.h>
@@ -6,7 +8,8 @@
 #include <time.h>
 #include "../common/utils.h"
 
-const int MAX_CLIENTS = 100;
+#define MAX_CLIENTS 100
+
 int CLIENTS_QUEUE[MAX_CLIENTS];
 int COMMON_QUEUE = -1;
 
@@ -24,7 +27,7 @@ void stop_handler(int signum) {
     exit(0);
 }
 
-void handle_math(struct msgbuf msgbuf);
+void handle_math(struct msg_buf msgbuf);
 
 void reverse(char s[MAX_BUFF_SIZE]) {
     size_t length = strlen(s);
@@ -37,8 +40,8 @@ void reverse(char s[MAX_BUFF_SIZE]) {
     }
 }
 
-void handle_new(struct msgbuf received_msg) {
-    struct msgbuf msg_to_send;
+void handle_new(struct msg_buf received_msg) {
+    struct msg_buf msg_to_send;
     printf("[S] [INIT] New client: %d\n", received_msg.client_id);
 
     int client_id = 0;
@@ -60,7 +63,7 @@ void handle_new(struct msgbuf received_msg) {
         printf("[S] [INIT] Message sent to client[%d]\n", client_id);
 }
 
-void handle_mirror(struct msgbuf msg) {
+void handle_mirror(struct msg_buf msg) {
     printf("[S] [MIRROR] New message received: %d\n", msg.client_id);
 
     if (CLIENTS_QUEUE[msg.client_id] == -1) {
@@ -78,7 +81,7 @@ void handle_mirror(struct msgbuf msg) {
         printf("[S] [MIRROR] Message sent to client[%d]\n", msg.client_id);
 }
 
-void handle_time(struct msgbuf msg) {
+void handle_time(struct msg_buf msg) {
     printf("[S] [TIME] New message received from %d\n", msg.client_id);
 
     if (CLIENTS_QUEUE[msg.client_id] == -1) {
@@ -100,7 +103,7 @@ void handle_time(struct msgbuf msg) {
         printf("[S] [TIME] Message sent to client[%d]\n", msg.client_id);
 }
 
-void handle_stop(struct msgbuf msg) {
+void handle_stop(struct msg_buf msg) {
     printf("[S] [STOP] New message received from %d\n", msg.client_id);
     if (CLIENTS_QUEUE[msg.client_id] == -1) {
         printf("[S] [ERROR] Client not registered\n");
@@ -112,7 +115,7 @@ void handle_stop(struct msgbuf msg) {
 }
 
 void reveive() {
-    struct msgbuf received_msg;
+    struct msg_buf received_msg;
     struct msqid_ds stat;
     bool server_end = false;
     msgqnum_t how_many = 1;
@@ -155,7 +158,7 @@ void reveive() {
     stop_handler(0);
 }
 
-void handle_math(struct msgbuf msgbuf) {
+void handle_math(struct msg_buf msgbuf) {
     printf("[S] [MATH] New message received from %d\n", msgbuf.client_id);
     int a = msgbuf.nums[0];
     int b = msgbuf.nums[1];

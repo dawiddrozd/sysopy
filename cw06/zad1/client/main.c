@@ -1,9 +1,12 @@
+#define _GNU_SOURCE
 #include <sys/msg.h>
 #include <sys/ipc.h>
 #include <stdio.h>
 #include <errno.h>
 #include <memory.h>
 #include <stdbool.h>
+#include <signal.h>
+
 #include "../common/utils.h"
 
 int MY_ID = -1;
@@ -12,7 +15,7 @@ int PRIVATE_QUEUE_ID = -1;
 
 void stop_handler(int signum) {
     printf("CLIENT STOPPED!\n");
-    struct msgbuf send_msg;
+    struct msg_buf send_msg;
     send_msg.client_id = MY_ID;
     printf(GREEN "[C] SERVER END command\n" RESET);
     int snd = msgsnd(PUBLIC_QUEUE_ID, &send_msg, MSG_BUFF_SIZE, IPC_NOWAIT);
@@ -44,8 +47,8 @@ int to_int(char *string) {
     return number;
 }
 
-void send_and_receive(struct msgbuf *send_msg,
-                      struct msgbuf *received_msg) {
+void send_and_receive(struct msg_buf *send_msg,
+                      struct msg_buf *received_msg) {
     int snd;
     snd = msgsnd(PUBLIC_QUEUE_ID, send_msg, MSG_BUFF_SIZE, IPC_NOWAIT);
     IF(snd < 0, "[C] Problem with sending message");
@@ -55,8 +58,8 @@ void send_and_receive(struct msgbuf *send_msg,
 }
 
 void run(FILE *file) {
-    struct msgbuf send_msg;
-    struct msgbuf received_msg;
+    struct msg_buf send_msg;
+    struct msg_buf received_msg;
     char line[MAX_CMDS];
 
     bool running = true;
