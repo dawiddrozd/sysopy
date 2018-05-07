@@ -109,8 +109,9 @@ int main(int argc, char **argv) {
     check_exit(nr_seats < 0, "Only numbers expected as first argument");
 
     // init semaphore
-    semaphore = sem_open(SEM_PATH, O_CREAT | O_RDWR, 0666, 1);
+    semaphore = sem_open(SEM_PATH, O_CREAT | O_RDWR, 0666, 0);
     check_exit(semaphore == (sem_t*) -1, "Can't create semaphore");
+    sem_give(semaphore);
 
     // init shared memory
     shared_mem_id = shm_open(SHM_PATH, O_RDWR | O_CREAT, S_IRWXU);

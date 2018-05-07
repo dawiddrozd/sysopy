@@ -109,7 +109,6 @@ int main(int argc, char **argv) {
     shared_mem_id = shm_open(SHM_PATH, O_RDWR, S_IRWXU);
     check_exit(shared_mem_id == -1, "Can't create shared memory");
     ftruncate(shared_mem_id, sizeof(struct Barbershop));
-
     Barbershop *barber_shop;
     barber_shop = mmap(NULL, sizeof(struct Barbershop), PROT_READ | PROT_WRITE, MAP_SHARED, shared_mem_id, 0);
     check_exit(barber_shop == (void *) -1, "Can't access shared memory");
