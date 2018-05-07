@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <sys/sem.h>
 #include <fcntl.h>
-#include <bits/signum.h>
 #include <signal.h>
 #include "../common/common_utils.h"
 #include "barber_utils.h"
@@ -17,6 +16,7 @@ int shm_id;
 void stop_handler(int signum) {
     printf(MAG "[Barber] Shop closed. Goodbye!\n" RESET);
     shmctl(shm_id, IPC_RMID, NULL);
+    semctl(sem_id, 0, IPC_RMID);
     exit(0);
 }
 

@@ -32,17 +32,16 @@ void barber_init(int nr_seats, Barbershop *barber) {
     barber->queue_head = 0;
     barber->queue_tail = 0;
     barber->nr_seats = nr_seats;
-    for(int i=0; i<MAX_NR_CLIENTS; i++)
+    for (int i = 0; i < MAX_NR_CLIENTS; i++)
         barber->queue[i] = -1;
 }
 
 void handle_client(Barbershop *barbershop, int sem_id) {
-    barbershop->client_status = INVITED;
     inc_sem(sem_id);
     while (barbershop->client_status != SITTING);
     dec_sem(sem_id);
-    barbershop->barber_status = BUSY;
     printf(GREEN "[BARBER] I started shaving [#%d]\n" RESET, barbershop->current_client);
+    barbershop->barber_status = BUSY;
 }
 
 void run(int nr_seats, Barbershop *barbershop, int sem_id) {
@@ -56,18 +55,19 @@ void run(int nr_seats, Barbershop *barbershop, int sem_id) {
                 handle_client(barbershop, sem_id);
                 break;
             case BUSY:
-                barbershop->client_status = LEAVING;
                 printf(BLUE "[BARBER] Client #%d was shaved.\n" RESET, barbershop->current_client);
+                barbershop->current_client = -1;
+                barbershop->client_status = NONE;
                 barbershop->barber_status = FREE;
                 break;
             case FREE:
-                if(barbershop->clients_waiting > 0) {
+                if (barbershop->clients_waiting > 0) {
                     barbershop->current_client = queue_pop(barbershop);
-                    barbershop->client_status = INVITED;
-                    printf(GREEN "[BARBER] I finished a shaving but still have clients, please come [#%d].\n" RESET, barbershop->current_client);
+                    printf(GREEN "[BARBER] I finished a shaving but still have clients, please come [#%d].\n" RESET,
+                           barbershop->current_client);
                     handle_client(barbershop, sem_id);
                 } else {
-                    printf(BLUE "[Barber] No one's is here. Let's take a nap.\n" RESET);
+                    printf(BLUE "[BARBER] No one's is here. Let's take a nap.\n" RESET);
                     barbershop->barber_status = SLEEPING;
                 }
                 break;

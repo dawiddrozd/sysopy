@@ -1,12 +1,12 @@
 #define _GNU_SOURCE
 
 #include <unistd.h>
-#include <wait.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <sys/sem.h>
+#include <sys/wait.h>
 #include "client_utils.h"
 
 void queue_add(pid_t client, Barbershop *barbershop) {
@@ -25,9 +25,9 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
 
     //child
     if (pid == 0) {
+        enum client_status my_status = NONE;
         while (nr_trimming) {
             // when i enter
-            enum client_status my_status = NONE;
             dec_sem(sem_id);
             switch (barbershop->barber_status) {
                 case FREE:
@@ -40,6 +40,7 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
                     } else {
                         printf(BLUE "[Client #%d] No more free space in waiting room. I leave.\n" RESET, getpid());
                         my_status = LEAVING;
+                        //usleep(300);
                     }
                     break;
                 case SLEEPING:
@@ -53,10 +54,6 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
             if (my_status == WAITING) {
                 inc_sem(sem_id);
                 while (barbershop->current_client != getpid());
-                dec_sem(sem_id);
-
-                inc_sem(sem_id);
-                while (barbershop->client_status != INVITED);
                 printf(GREEN "[Client #%d] I was invited.\n" RESET, getpid());
                 dec_sem(sem_id);
 
@@ -64,10 +61,10 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
                 printf(GREEN "[Client #%d] Sitting on the armchair.\n" RESET, getpid());
 
                 inc_sem(sem_id);
-                while (barbershop->client_status != LEAVING);
-                printf(GREEN "[Client #%d] I was shaved.\n" RESET, getpid());
+                while (barbershop->current_client == getpid());
+                printf(MAG "[Client #%d] I was shaved. Haircut left: [%d]\n" RESET, getpid(), nr_trimming);
                 dec_sem(sem_id);
-
+                my_status = NONE;
                 nr_trimming--;
             }
 
@@ -75,7 +72,6 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
         }
 
     }
-
 
     //parent
     if (pid > 0) {
