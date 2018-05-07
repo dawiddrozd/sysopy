@@ -28,47 +28,43 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
         enum client_status my_status = NONE;
         while (nr_trimming) {
             // when i enter
-            dec_sem(sem_id);
+            inc_sem(sem_id);
             switch (barbershop->barber_status) {
+                case SLEEPING:
+                    printf(GREEN "[Client #%d] Let's wake up a barber! \n" RESET, getpid());
+                    barbershop->barber_status = AWOKEN;
+                    barbershop->current_client = getpid();
+                    my_status = WAITING;
+                    break;
                 case FREE:
                 case AWOKEN:
                 case BUSY:
                     if (barbershop->clients_waiting < barbershop->nr_seats) {
-                        printf(BLUE "[Client #%d] I will sit and wait in queue\n" RESET, getpid());
+                        printf(BLUE "[Client #%d] Waiting in queue.\n" RESET, getpid());
                         queue_add(getpid(), barbershop);
                         my_status = WAITING;
                     } else {
-                        printf(BLUE "[Client #%d] No more free space in waiting room. I leave.\n" RESET, getpid());
-                        my_status = LEAVING;
-                        //usleep(300);
+                        printf(BLUE "[Client #%d] No more free space. I leave.\n" RESET, getpid());
+                        usleep(300);
                     }
                     break;
-                case SLEEPING:
-                    printf(GREEN "[Client #%d] Let's wake up a barber! \n" RESET, getpid());
-                    barbershop->current_client = getpid();
-                    barbershop->barber_status = AWOKEN;
-                    my_status = WAITING;
-                    break;
             }
+            dec_sem(sem_id);
 
             if (my_status == WAITING) {
+
                 inc_sem(sem_id);
-                while (barbershop->current_client != getpid());
+
+                while (barbershop->current_client == getpid());
                 printf(GREEN "[Client #%d] I was invited.\n" RESET, getpid());
-                dec_sem(sem_id);
-
-                barbershop->client_status = SITTING;
-                printf(GREEN "[Client #%d] Sitting on the armchair.\n" RESET, getpid());
-
-                inc_sem(sem_id);
                 while (barbershop->current_client == getpid());
                 printf(MAG "[Client #%d] I was shaved. Haircut left: [%d]\n" RESET, getpid(), nr_trimming);
+
                 dec_sem(sem_id);
+
                 my_status = NONE;
                 nr_trimming--;
             }
-
-            inc_sem(sem_id);
         }
 
     }

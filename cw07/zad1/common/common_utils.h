@@ -28,18 +28,12 @@ enum barber_status {
 
 enum client_status {
     NONE,
-    INVITED,
-    SITTING,
     WAITING,
-    LEAVING
 };
 
 typedef struct Barbershop {
     enum barber_status barber_status;
-
     int current_client;
-    enum client_status client_status;
-
     pid_t queue[MAX_NR_CLIENTS];
     int clients_waiting;
     int queue_head;

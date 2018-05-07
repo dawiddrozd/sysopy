@@ -26,54 +26,50 @@ void barber_init(int nr_seats, Barbershop *barber) {
         return;
     }
     barber->barber_status = FREE;
-    barber->client_status = NONE;
     barber->clients_waiting = 0;
-    barber->current_client = -1;
+    barber->current_client = 0;
     barber->queue_head = 0;
     barber->queue_tail = 0;
     barber->nr_seats = nr_seats;
     for (int i = 0; i < MAX_NR_CLIENTS; i++)
-        barber->queue[i] = -1;
-}
-
-void handle_client(Barbershop *barbershop, int sem_id) {
-    inc_sem(sem_id);
-    while (barbershop->client_status != SITTING);
-    dec_sem(sem_id);
-    printf(GREEN "[BARBER] I started shaving [#%d]\n" RESET, barbershop->current_client);
-    barbershop->barber_status = BUSY;
+        barber->queue[i] = 0;
 }
 
 void run(int nr_seats, Barbershop *barbershop, int sem_id) {
     bool running = true;
 
     while (running) {
-        dec_sem(sem_id);
+        inc_sem(sem_id);
         switch (barbershop->barber_status) {
             case AWOKEN:
-                printf(GREEN "[BARBER] I was sleeping. Please come [#%d].\n" RESET, barbershop->current_client);
-                handle_client(barbershop, sem_id);
+                if(barbershop->current_client != 0){
+                    printf(GREEN "[BARBER] I was sleeping. Please come [#%d].\n" RESET, barbershop->current_client);
+                    barbershop->barber_status = BUSY;
+                } else {
+                    barbershop->barber_status = FREE;
+                }
                 break;
             case BUSY:
-                printf(BLUE "[BARBER] Client #%d was shaved.\n" RESET, barbershop->current_client);
-                barbershop->current_client = -1;
-                barbershop->client_status = NONE;
+                printf(GREEN "[BARBER] I started shaving [#%d]\n" RESET, barbershop->current_client);
+                printf(GREEN "[BARBER] I finished shaving [#%d]\n" RESET, barbershop->current_client);
+                barbershop->current_client = 0;
                 barbershop->barber_status = FREE;
                 break;
             case FREE:
                 if (barbershop->clients_waiting > 0) {
+                    //invite client
                     barbershop->current_client = queue_pop(barbershop);
-                    printf(GREEN "[BARBER] I finished a shaving but still have clients, please come [#%d].\n" RESET,
-                           barbershop->current_client);
-                    handle_client(barbershop, sem_id);
+                    printf(GREEN "[BARBER] Please come [#%d].\n" RESET, barbershop->current_client);
+                    barbershop->barber_status = BUSY;
                 } else {
                     printf(BLUE "[BARBER] No one's is here. Let's take a nap.\n" RESET);
                     barbershop->barber_status = SLEEPING;
+                    barbershop->current_client = 0;
                 }
                 break;
             case SLEEPING:
                 break;
         }
-        inc_sem(sem_id);
+        dec_sem(sem_id);
     }
 }
