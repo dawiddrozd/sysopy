@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <sys/sem.h>
 #include <time.h>
+#include <semaphore.h>
 #include "common.h"
 
 void check_exit(bool correct, const char *message) {
@@ -41,24 +42,14 @@ const char *get_homedir() {
     return homedir;
 }
 
-void sem_give(int sem_id) {
-    struct sembuf sembuf;
-    sembuf.sem_flg = 0;
-    sembuf.sem_num = 0;
-    sembuf.sem_op = 1;
-
-    if (semop(sem_id, &sembuf, 1) < 0) {
-        printf("%s", strerror(errno));
+void sem_give(sem_t *semaphore) {
+    if(sem_post(semaphore) == -1) {
+        fprintf(stderr, "Error: %s: %s\n", strerror(errno), "Incrementing semaphore failed.");
     }
 }
 
-void sem_take(int sem_id) {
-    struct sembuf sembuf;
-    sembuf.sem_flg = 0;
-    sembuf.sem_num = 0;
-    sembuf.sem_op = -1;
-
-    if (semop(sem_id, &sembuf, 1) < 0) {
+void sem_take(sem_t *semaphore) {
+    if (sem_wait(semaphore) < 0) {
         printf("%s", strerror(errno));
     }
 }

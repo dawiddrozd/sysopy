@@ -8,7 +8,13 @@
 #include <stdio.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <sys/mman.h>
+#include <fcntl.h>
+#include <semaphore.h>
 #include "common.h"
+
+sem_t* semaphore;
+int shared_mem_id;
 
 void queue_add(pid_t client, Barbershop *barbershop) {
     barbershop->queue_tail = barbershop->queue_tail % MAX_NR_CLIENTS;
@@ -21,7 +27,7 @@ int sem_getval(int sem_id) {
     return semctl(sem_id, 0, GETVAL, 0);
 }
 
-void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
+void run(int nr_clients, int nr_trimming, Barbershop *barbershop, sem_t *sem) {
     int pid = -1;
     for (int i = 0; i < nr_clients; i++) {
         pid = fork();
@@ -34,7 +40,7 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
         while (nr_trimming) {
             enum client_status my_status = NONE;
             // when i enter
-            sem_take(sem_id);
+            sem_take(sem);
             switch (barbershop->barber_status) {
                 case SLEEPING:
                     printf(GREEN "[%s][Client #%d] Let's wake up a barber! \n" RESET, gettime(buffer), getpid());
@@ -51,34 +57,34 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, int sem_id) {
                         my_status = WAITING;
                     } else {
                         printf(BLUE "[%s][Client #%d] No more free space. I leave.\n" RESET, gettime(buffer), getpid());
-                        sem_give(sem_id);
+                        sem_give(sem);
                         exit(0);
                     }
                     break;
                 default:
                     break;
             }
-            sem_give(sem_id);
+            sem_give(sem);
 
             if (my_status == WAITING) {
 
                 while (my_status == WAITING) {
-                    sem_take(sem_id);
+                    sem_take(sem);
                     if (barbershop->current_client == getpid()) {
                         my_status = INVITED;
                         barbershop->current_client_status = SITTING;
                         printf(GREEN "[%s][Client #%d] I was invited.\n" RESET, gettime(buffer), getpid());
                     }
-                    sem_give(sem_id);
+                    sem_give(sem);
                 }
 
                 while (my_status == INVITED) {
-                    sem_take(sem_id);
+                    sem_take(sem);
                     if (barbershop->current_client != getpid()) {
                         my_status = NONE;
                         printf(MAG "[%s][Client #%d] I was shaved. Haircut left: [%d]\n" RESET, gettime(buffer), getpid(), --nr_trimming);
                     }
-                    sem_give(sem_id);
+                    sem_give(sem);
                 }
             }
         }
@@ -100,25 +106,19 @@ int main(int argc, char **argv) {
     check_exit(nr_clients < 0 || nr_trimming < 0, "Can't parse arguments");
 
     //open shared memory
-    key_t shm_key;
-    shm_key = ftok(get_homedir(), SHM_CHAR);
-    check_exit(shm_key < 0, "Ftok failed.");
-    int shm_id;
-    shm_id = shmget(shm_key, sizeof(struct Barbershop), 0);
-    check_exit(shm_id < 0, "Shmget failed.");
+    shared_mem_id = shm_open(SHM_PATH, O_RDWR, S_IRWXU);
+    check_exit(shared_mem_id == -1, "Can't create shared memory");
+    ftruncate(shared_mem_id, sizeof(struct Barbershop));
+
     Barbershop *barber_shop;
-    barber_shop = shmat(shm_id, NULL, 0);
-    check_exit(barber_shop == (void *) -1, "Shmat failed");
+    barber_shop = mmap(NULL, sizeof(struct Barbershop), PROT_READ | PROT_WRITE, MAP_SHARED, shared_mem_id, 0);
+    check_exit(barber_shop == (void *) -1, "Can't access shared memory");
 
     //open semaphore
-    key_t sem_key;
-    sem_key = ftok(get_homedir(), SEM_CHAR);
-    check_exit(sem_key < 0, "Ftok failed.");
-    int sem_id;
-    sem_id = semget(sem_key, 0, 0);
-    check_exit(sem_id < 0, "Semget failed.");
+    semaphore = sem_open(SEM_PATH, 0);
+    check_exit(semaphore == (sem_t*) -1, "Can't create semaphore");
 
-    run(nr_clients, nr_trimming, barber_shop, sem_id);
+    run(nr_clients, nr_trimming, barber_shop, semaphore);
 
     return 0;
 }

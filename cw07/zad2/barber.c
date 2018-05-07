@@ -7,15 +7,22 @@
 #include <sys/sem.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <semaphore.h>
+#include <sys/mman.h>
+#include <unistd.h>
 #include "common.h"
 
-int sem_id;
-int shm_id;
+sem_t* semaphore;
+int shared_mem_id;
 
 void stop_handler(int signum) {
-    printf(MAG "[Barber] Shop closed. Goodbye!\n" RESET);
-    shmctl(shm_id, IPC_RMID, NULL);
-    semctl(sem_id, 0, IPC_RMID);
+    if(semaphore != NULL) {
+        sem_close(semaphore);
+    }
+    if(shared_mem_id != 0) {
+        close(shared_mem_id);
+        shm_unlink(SEM_PATH);
+    }
     exit(0);
 }
 
@@ -47,26 +54,27 @@ void barber_init(int nr_seats, Barbershop *barber) {
         barber->queue[i] = 0;
 }
 
-void run(int nr_seats, Barbershop *barbershop, int sem_id) {
+void run(int nr_seats, Barbershop *barbershop, sem_t *sem) {
     bool running = true;
 
+    char buffer[DATE_SIZE];
     while (running) {
-        sem_take(sem_id);
+        sem_take(sem);
         switch (barbershop->barber_status) {
             case AWOKEN:
                 if (barbershop->current_client != 0) {
-                    printf(GREEN "[BARBER] I was sleeping. Please come [#%d].\n" RESET, barbershop->current_client);
+                    printf(GREEN "[%s][BARBER] I was sleeping. Please come [#%d].\n" RESET, gettime(buffer), barbershop->current_client);
                     barbershop->barber_status = BUSY;
                 } else {
                     barbershop->barber_status = FREE;
                 }
                 break;
             case BUSY:
-                sem_give(sem_id);
+                sem_give(sem);
                 while (barbershop->current_client_status != SITTING);
-                printf(GREEN "[BARBER] I started shaving [#%d]\n" RESET, barbershop->current_client);
-                sem_take(sem_id);
-                printf(GREEN "[BARBER] I finished shaving [#%d]\n" RESET, barbershop->current_client);
+                printf(GREEN "[%s][BARBER] I started shaving [#%d]\n" RESET, gettime(buffer), barbershop->current_client);
+                sem_take(sem);
+                printf(GREEN "[%s][BARBER] I finished shaving [#%d]\n" RESET, gettime(buffer), barbershop->current_client);
                 barbershop->barber_status = FREE;
                 barbershop->current_client = 0;
                 barbershop->current_client_status = NONE;
@@ -75,10 +83,10 @@ void run(int nr_seats, Barbershop *barbershop, int sem_id) {
                 if (barbershop->clients_waiting > 0) {
                     //invite client
                     barbershop->current_client = queue_pop(barbershop);
-                    printf(GREEN "[BARBER] Please come [#%d].\n" RESET, barbershop->current_client);
+                    printf(GREEN "[%s][BARBER] Please come [#%d].\n" RESET, gettime(buffer), barbershop->current_client);
                     barbershop->barber_status = BUSY;
                 } else {
-                    printf(BLUE "[BARBER] No one's is here. Let's take a nap.\n" RESET);
+                    printf(BLUE "[%s][BARBER] No one's is here. Let's take a nap.\n" RESET,  gettime(buffer));
                     barbershop->barber_status = SLEEPING;
                     barbershop->current_client = 0;
                     barbershop->current_client_status = NONE;
@@ -87,7 +95,7 @@ void run(int nr_seats, Barbershop *barbershop, int sem_id) {
             case SLEEPING:
                 break;
         }
-        sem_give(sem_id);
+        sem_give(sem);
     }
 }
 
@@ -100,30 +108,23 @@ int main(int argc, char **argv) {
     int nr_seats = to_int(argv[1]);
     check_exit(nr_seats < 0, "Only numbers expected as first argument");
 
-    // init shared memory
-    key_t shm_key;
-    shm_key = ftok(get_homedir(), SHM_CHAR);
-    check_exit(shm_key < 0, "Ftok failed.");
-    shm_id = shmget(shm_key, sizeof(Barbershop), S_IRWXU | IPC_CREAT);
-    check_exit(shm_id < 0, "Shmget failed.");
-    Barbershop *barber_shop;
-    barber_shop = shmat(shm_id, NULL, 0);
-    check_exit(barber_shop == (void *) -1, "Shmat failed");
-
-
     // init semaphore
-    key_t sem_key;
-    sem_key = ftok(get_homedir(), SEM_CHAR);
-    check_exit(sem_key < 0, "Ftok failed.");
-    sem_id = semget(sem_key, 1, S_IRWXU | IPC_CREAT);
-    check_exit(sem_id < 0, "Semget failed.");
-    semctl(sem_id, 0, SETVAL, 0);
-    sem_give(sem_id);
+    semaphore = sem_open(SEM_PATH, O_CREAT | O_RDWR, 0666, 1);
+    check_exit(semaphore == (sem_t*) -1, "Can't create semaphore");
+
+    // init shared memory
+    shared_mem_id = shm_open(SHM_PATH, O_RDWR | O_CREAT, S_IRWXU);
+    check_exit(shared_mem_id == -1, "Can't create shared memory");
+    ftruncate(shared_mem_id, sizeof(struct Barbershop));
+
+    Barbershop *barber_shop;
+    barber_shop = mmap(NULL, sizeof(struct Barbershop), PROT_READ | PROT_WRITE, MAP_SHARED, shared_mem_id, 0);
+    check_exit(barber_shop == (void *) -1, "Can't access shared memory");
 
     barber_init(nr_seats, barber_shop);
     signal(SIGINT, stop_handler);
 
-    run(nr_seats, barber_shop, sem_id);
+    run(nr_seats, barber_shop, semaphore);
 
     return 0;
 }

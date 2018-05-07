@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -std=c99
+CFLAGS=-Wall -lpthread -lrt -std=c99
 BARBER_SRC=barber.c common.c
 CLIENT_SRC=client.c common.c
 

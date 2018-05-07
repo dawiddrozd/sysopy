@@ -8,8 +8,8 @@
 
 #define CHECK_RETURN(EXPR) if(EXPR) { return -1; }
 #define MAX_NR_CLIENTS 1024
-#define SHM_CHAR 'b'
-#define SEM_CHAR 's'
+#define SEM_PATH "/barber_"
+#define SHM_PATH "/shm"
 #define DATE_SIZE 128
 
 #define GREEN   "\x1B[32m"
@@ -48,8 +48,8 @@ typedef struct Barbershop {
 void check_exit(bool correct, const char *message);
 int to_int(char *string);
 const char *get_homedir();
-void sem_give(int sem_id);
-void sem_take(int sem_id);
+void sem_give(sem_t *semaphore);
+void sem_take(sem_t *semaphore);
 char *gettime(char buffer[DATE_SIZE]);
 
 #endif //SYSOPY4_COMMON_UTILS_H
