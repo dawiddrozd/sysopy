@@ -10,6 +10,7 @@
 #define MAX_NR_CLIENTS 1024
 #define SHM_CHAR 'b'
 #define SEM_CHAR 's'
+#define DATE_SIZE 128
 
 #define GREEN   "\x1B[32m"
 #define YELLOW  "\x1B[33m"
@@ -29,11 +30,14 @@ enum barber_status {
 enum client_status {
     NONE,
     WAITING,
+    INVITED,
+    SITTING
 };
 
 typedef struct Barbershop {
     enum barber_status barber_status;
     int current_client;
+    enum client_status current_client_status;
     pid_t queue[MAX_NR_CLIENTS];
     int clients_waiting;
     int queue_head;
@@ -44,7 +48,8 @@ typedef struct Barbershop {
 void check_exit(bool correct, const char *message);
 int to_int(char *string);
 const char *get_homedir();
-void inc_sem(int sem_id);
-void dec_sem(int sem_id);
+void sem_give(int sem_id);
+void sem_take(int sem_id);
+char *gettime(char buffer[DATE_SIZE]);
 
 #endif //SYSOPY4_COMMON_UTILS_H

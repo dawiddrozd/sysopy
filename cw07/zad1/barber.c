@@ -7,8 +7,7 @@
 #include <sys/sem.h>
 #include <fcntl.h>
 #include <signal.h>
-#include "../common/common_utils.h"
-#include "barber_utils.h"
+#include "common.h"
 
 int sem_id;
 int shm_id;
@@ -37,9 +36,10 @@ void barber_init(int nr_seats, Barbershop *barber) {
     if (barber == NULL) {
         return;
     }
-    barber->barber_status = FREE;
+    barber->barber_status = SLEEPING;
     barber->clients_waiting = 0;
     barber->current_client = 0;
+    barber->current_client_status = NONE;
     barber->queue_head = 0;
     barber->queue_tail = 0;
     barber->nr_seats = nr_seats;
@@ -51,10 +51,10 @@ void run(int nr_seats, Barbershop *barbershop, int sem_id) {
     bool running = true;
 
     while (running) {
-        inc_sem(sem_id);
+        sem_take(sem_id);
         switch (barbershop->barber_status) {
             case AWOKEN:
-                if(barbershop->current_client != 0){
+                if (barbershop->current_client != 0) {
                     printf(GREEN "[BARBER] I was sleeping. Please come [#%d].\n" RESET, barbershop->current_client);
                     barbershop->barber_status = BUSY;
                 } else {
@@ -62,10 +62,14 @@ void run(int nr_seats, Barbershop *barbershop, int sem_id) {
                 }
                 break;
             case BUSY:
+                sem_give(sem_id);
+                while (barbershop->current_client_status != SITTING);
                 printf(GREEN "[BARBER] I started shaving [#%d]\n" RESET, barbershop->current_client);
+                sem_take(sem_id);
                 printf(GREEN "[BARBER] I finished shaving [#%d]\n" RESET, barbershop->current_client);
-                barbershop->current_client = 0;
                 barbershop->barber_status = FREE;
+                barbershop->current_client = 0;
+                barbershop->current_client_status = NONE;
                 break;
             case FREE:
                 if (barbershop->clients_waiting > 0) {
@@ -77,12 +81,13 @@ void run(int nr_seats, Barbershop *barbershop, int sem_id) {
                     printf(BLUE "[BARBER] No one's is here. Let's take a nap.\n" RESET);
                     barbershop->barber_status = SLEEPING;
                     barbershop->current_client = 0;
+                    barbershop->current_client_status = NONE;
                 }
                 break;
             case SLEEPING:
                 break;
         }
-        dec_sem(sem_id);
+        sem_give(sem_id);
     }
 }
 
@@ -99,7 +104,7 @@ int main(int argc, char **argv) {
     key_t shm_key;
     shm_key = ftok(get_homedir(), SHM_CHAR);
     check_exit(shm_key < 0, "Ftok failed.");
-    shm_id = shmget(shm_key, sizeof(Barbershop), IPC_CREAT | 0666);
+    shm_id = shmget(shm_key, sizeof(Barbershop), S_IRWXU | IPC_CREAT);
     check_exit(shm_id < 0, "Shmget failed.");
     Barbershop *barber_shop;
     barber_shop = shmat(shm_id, NULL, 0);
@@ -110,10 +115,10 @@ int main(int argc, char **argv) {
     key_t sem_key;
     sem_key = ftok(get_homedir(), SEM_CHAR);
     check_exit(sem_key < 0, "Ftok failed.");
-    sem_id = semget(sem_key, 1, IPC_CREAT | S_IRWXU | S_IRWXG | S_IRWXO);
+    sem_id = semget(sem_key, 1, S_IRWXU | IPC_CREAT);
     check_exit(sem_id < 0, "Semget failed.");
-    semctl(sem_id, 0, SETVAL, 1); //don't know if works!!
-    //inc_sem(sem_id);
+    semctl(sem_id, 0, SETVAL, 0);
+    sem_give(sem_id);
 
     barber_init(nr_seats, barber_shop);
     signal(SIGINT, stop_handler);

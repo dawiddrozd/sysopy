@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -std=c99
-BARBER_SRC=barber/barber.c barber/barber_utils.c common/common_utils.c
-CLIENT_SRC=client/client.c client/client_utils.c common/common_utils.c
+BARBER_SRC=barber.c common.c
+CLIENT_SRC=client.c common.c
 
 compile:
 	$(CC) $(CFLAGS) -o client.out $(CLIENT_SRC)

@@ -8,7 +8,8 @@
 #include <pwd.h>
 #include <unistd.h>
 #include <sys/sem.h>
-#include "common_utils.h"
+#include <time.h>
+#include "common.h"
 
 void check_exit(bool correct, const char *message) {
     if (correct) {
@@ -40,9 +41,9 @@ const char *get_homedir() {
     return homedir;
 }
 
-void inc_sem(int sem_id) {
+void sem_give(int sem_id) {
     struct sembuf sembuf;
-    sembuf.sem_flg = SEM_UNDO;
+    sembuf.sem_flg = 0;
     sembuf.sem_num = 0;
     sembuf.sem_op = 1;
 
@@ -51,13 +52,20 @@ void inc_sem(int sem_id) {
     }
 }
 
-void dec_sem(int sem_id) {
+void sem_take(int sem_id) {
     struct sembuf sembuf;
-    sembuf.sem_flg = SEM_UNDO;
+    sembuf.sem_flg = 0;
     sembuf.sem_num = 0;
     sembuf.sem_op = -1;
 
     if (semop(sem_id, &sembuf, 1) < 0) {
         printf("%s", strerror(errno));
     }
+}
+
+char *gettime(char buffer[DATE_SIZE]) {
+    struct timespec time;
+    clock_gettime(CLOCK_MONOTONIC, &time);
+    sprintf(buffer, "%d:%li",(int)time.tv_sec, time.tv_nsec);
+    return buffer;
 }
