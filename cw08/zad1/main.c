@@ -7,14 +7,21 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <assert.h>
+#include <math.h>
 
 #define BUFFER_SIZE 128
+#define INT_PARSE 0
+#define DOUBLE_PARSE 1
 
 typedef struct Array {
     int x_size;
     int y_size;
+    int filter_size;
     int **array;
+    double **filter;
 } Array;
+
+void free_all(Array array);
 
 void check_exit(bool correct, const char *message) {
     if (correct) {
@@ -45,6 +52,12 @@ void print(Array array) {
         }
         printf("\n");
     }
+    for (int i = 0; i < array.filter_size; i++) {
+        for (int j = 0; j < array.filter_size; j++) {
+            printf("%f ", array.filter[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 bool is_commented(const char *line) {
@@ -62,7 +75,7 @@ ssize_t get_next_line(FILE *stream, char **line) {
     return nread;
 }
 
-void parse(Array arr, FILE *stream) {
+void parse(Array *arr, FILE *stream, int type) {
     char *line = NULL;
     char *num;
     ssize_t nread;
@@ -73,15 +86,26 @@ void parse(Array arr, FILE *stream) {
     while ((nread = get_next_line(stream, &line) != -1)) {
         num = strtok(line, " \t");
         do {
-            arr.array[x_actual][y_actual++] = to_int(num);
+            if (type == INT_PARSE) {
+                arr->array[x_actual][y_actual++] = to_int(num);
+            } else {
+                arr->filter[x_actual][y_actual++] = strtod(num, NULL);
+            }
             nums++;
-            if (y_actual >= arr.y_size) {
+            if ((y_actual >= arr->y_size && type == INT_PARSE) ||
+                    (y_actual >= arr->filter_size && type == DOUBLE_PARSE)) {
                 y_actual = 0;
                 x_actual++;
             }
         } while ((num = strtok(NULL, " \n\t")) != NULL);
     }
-    check_exit(nums != arr.y_size * arr.x_size, "Not proper numer of numbers");
+    bool checked = true;
+    if (type == INT_PARSE) {
+        checked = nums != arr->y_size * arr->x_size;
+    } else {
+        checked = nums != arr->filter_size * arr->filter_size;
+    }
+    check_exit(checked, "Not proper number of numbers");
 }
 
 Array parse_pgm_file(const char *in) {
@@ -114,18 +138,17 @@ Array parse_pgm_file(const char *in) {
         pgm.array[i] = (int *) malloc(y_size * sizeof(int));
     }
 
-    parse(pgm, stream);
+    parse(&pgm, stream, INT_PARSE);
 
     free(line);
     fclose(stream);
     return pgm;
 }
 
-Array parse_filter(const char *in) {
+void parse_filter(const char *in, Array *filter) {
     FILE *stream = NULL;
     char *line = NULL;
     char *num;
-    Array filter;
     ssize_t nread;
 
     stream = fopen(in, "rw");
@@ -134,16 +157,12 @@ Array parse_filter(const char *in) {
     nread = get_next_line(stream, &line);
     num = strtok(line, " \n\t");
     int size = to_int(num);
-
-    filter.y_size = size;
-    filter.x_size = size;
-    filter.array = (int **) malloc(size * sizeof(int *));
+    filter->filter_size = size;
+    filter->filter = (double **) malloc(size * sizeof(double *));
     for (int i = 0; i < size; i++) {
-        filter.array[i] = (int *) malloc(size * sizeof(int));
+        filter->filter[i] = (double *) malloc(size * sizeof(double));
     }
-
-    parse(filter, stream);
-    return filter;
+    parse(filter, stream, DOUBLE_PARSE);
 }
 
 int main(int argc, char **argv) {
@@ -154,13 +173,23 @@ int main(int argc, char **argv) {
     char *fltr = argv[3];
     char *out = argv[4];
     Array pgm;
-    Array filter;
 
     pgm = parse_pgm_file(in);
+    parse_filter(fltr, &pgm);
     //print(pgm);
-    filter = parse_filter(fltr);
-    //print(filter);
 
-
+    free_all(pgm);
     return 0;
+}
+
+void free_all(Array array) {
+    for(int i =0; i<array.x_size; i++) {
+        free(array.array[i]);
+    }
+    free(array.array);
+
+    for(int i=0; i<array.filter_size; i++) {
+        free(array.filter[i]);
+    }
+    free(array.filter);
 }
