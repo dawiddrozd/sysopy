@@ -1,0 +1,4 @@
+Execution time of 1 threads: 319135µs
+Execution time of 2 threads: 161727µs
+Execution time of 4 threads: 143459µs
+Execution time of 8 threads: 149886µs
