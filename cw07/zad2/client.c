@@ -57,8 +57,9 @@ void run(int nr_clients, int nr_trimming, Barbershop *barbershop, sem_t *sem) {
                         my_status = WAITING;
                     } else {
                         printf(BLUE "[%s][Client #%d] No more free space. I leave.\n" RESET, gettime(buffer), getpid());
-                        sem_give(sem);
-                        exit(0);
+                        sleep(1);
+                        //sem_give(sem);
+                        //exit(0);
                     }
                     break;
                 default:

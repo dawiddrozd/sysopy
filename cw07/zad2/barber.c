@@ -15,6 +15,8 @@
 sem_t* semaphore;
 int shared_mem_id;
 
+
+
 void stop_handler(int signum) {
     if(semaphore != NULL) {
         sem_close(semaphore);
